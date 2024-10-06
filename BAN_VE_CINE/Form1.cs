@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.ComponentModel;
 using System.Data;
 using System.Drawing;
+using System.Globalization;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -74,11 +75,7 @@ namespace BAN_VE_CINE
                 btnChonGhe.BackColor = Color.LightBlue;
                 lstChonGhe.Add(btnChonGhe);  // Thêm ghế vào danh sách
             }
-            else if (btnChonGhe.BackColor == Color.LightBlue)
-            {
-                btnChonGhe.BackColor = Color.White;
-                lstChonGhe.Remove(btnChonGhe);  // Bỏ ghế ra khỏi danh sách
-            }
+            TinhTongTien();
         }
 
         private void btnChon_Click(object sender, EventArgs e)
@@ -86,15 +83,53 @@ namespace BAN_VE_CINE
             try
             {
                 // Kiểm tra nếu không có ghế nào được chọn
-                if (lstChonGhe.Count == 0)
+                if (!lstChonGhe.Any(item => item.BackColor == Color.LightBlue))
                 {
                     MessageBox.Show("Vui lòng chọn ít nhất một ghế!", "Thông Báo", MessageBoxButtons.OK, MessageBoxIcon.Warning);
                     return;
                 }
-
-                // Tính tổng tiền những ghế được chọn
-                double tongTien = 0;
+                TinhTongTien();
+                //thay đổi màu ghế thành màu vàng
                 foreach (Button item in lstChonGhe)
+                {
+                    item.BackColor = Color.Yellow;
+                }
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show("Có lỗi xảy ra: " + ex.Message, "Lỗi", MessageBoxButtons.OK, MessageBoxIcon.Error);
+            }
+        }
+
+        private void btnHuy_Click(object sender, EventArgs e)
+        {
+            // Duyệt qua danh sách ghế đã chọn
+            foreach (Button item in lstChonGhe.ToList()) // Sử dụng ToList() để tránh thay đổi danh sách trong vòng lặp
+            {
+                if(item.BackColor == Color.LightBlue)
+                {
+                // Đổi màu ghế về màu xám (hoặc màu mặc định của bạn)
+                item.BackColor = Color.White;
+                // Xóa ghế khỏi danh sách đã chọn
+                lstChonGhe.Remove(item);
+                txtTongTien.Text = "0 VNĐ";
+                }
+            }
+        }
+        private void TinhTongTien()
+        {
+            // Kiểm tra nếu không có ghế nào được chọn
+            if (lstChonGhe.Count == 0)
+            {
+                txtTongTien.Text = "0 VNĐ";
+                return;
+            }
+
+            // Tính tổng tiền những ghế được chọn
+            double tongTien = 0;
+            foreach (Button item in lstChonGhe)
+            {
+                if (item.BackColor == Color.LightBlue) // Chỉ tính những ghế có màu LightBlue
                 {
                     int GheChon = int.Parse(item.Text);
                     if (GheChon <= 4)
@@ -108,17 +143,27 @@ namespace BAN_VE_CINE
                     else
                         tongTien += 8000;
                 }
-
-                // Hiển thị tổng tiền
-                txtTongTien.Text = tongTien.ToString("N0") + " VNĐ";
-
-                // Thêm thông tin vào DataGridView (nếu cần)
-                // dgvKhachHang.Rows.Add(...);
-
             }
-            catch (Exception ex)
+
+            // Hiển thị tổng tiền
+            txtTongTien.Text = tongTien.ToString("N2", new CultureInfo("vi-VN")) + " VNĐ";
+        }
+
+        private void btnThoat_Click(object sender, EventArgs e)
+        {
+            DialogResult dr = MessageBox.Show("Bạn có muốn thoát?", "Lựa Chọn", MessageBoxButtons.YesNo, MessageBoxIcon.Question);
+            if (dr == DialogResult.Yes)
             {
-                MessageBox.Show("Có lỗi xảy ra: " + ex.Message, "Lỗi", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                this.Close();
+            }
+        }
+
+        private void Form1_FormClosing(object sender, FormClosingEventArgs e)
+        {
+            DialogResult dr = MessageBox.Show("Bạn có muốn thoát?", "Lựa Chọn", MessageBoxButtons.YesNo, MessageBoxIcon.Question);
+            if (dr == DialogResult.No)
+            {
+                e.Cancel = true;
             }
         }
     }
