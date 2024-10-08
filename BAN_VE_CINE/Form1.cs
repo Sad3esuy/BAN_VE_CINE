@@ -75,9 +75,71 @@ namespace BAN_VE_CINE
                 btnChonGhe.BackColor = Color.LightBlue;
                 lstChonGhe.Add(btnChonGhe);  // Thêm ghế vào danh sách
             }
+            else if (btnChonGhe.BackColor == Color.LightBlue)
+            {
+                btnChonGhe.BackColor = Color.White;
+                lstChonGhe.Remove(btnChonGhe);  // Bỏ ghế khỏi danh sách
+            }
+
+            // Cập nhật tổng tiền ngay lập tức sau khi chọn ghế
             TinhTongTien();
         }
 
+        private void btnHuy_Click(object sender, EventArgs e)
+        {
+            // Duyệt qua danh sách ghế đã chọn
+            foreach (Button item in lstChonGhe.ToList()) // Sử dụng ToList() để tránh thay đổi danh sách trong vòng lặp
+            {
+                if (item.BackColor == Color.LightBlue)
+                {
+                    // Đổi màu ghế về màu trắng (màu mặc định của bạn)
+                    item.BackColor = Color.White;
+                    // Xóa ghế khỏi danh sách đã chọn
+                    lstChonGhe.Remove(item);
+                }
+            }
+
+            // Reset tổng tiền
+            txtTongTien.Text = "0 VNĐ";
+        }
+
+        // Phương thức tính tổng tiền, cập nhật lại thông tin hiển thị
+        private void TinhTongTien()
+        {
+            // Kiểm tra nếu không có ghế nào được chọn
+            if (lstChonGhe.Count == 0)
+            {
+                txtTongTien.Text = "0 VNĐ";
+                return;
+            }
+
+            // Tính tổng tiền cho các ghế được chọn
+            decimal tongTien = 0;
+            foreach (Button item in lstChonGhe)
+            {
+                if (item.BackColor == Color.LightBlue) // Chỉ tính những ghế có màu LightBlue
+                {
+                    tongTien += TinhTienGhe(item); // Gọi phương thức tính tiền cho từng ghế
+                }
+            }
+
+            // Hiển thị tổng tiền
+            txtTongTien.Text = tongTien.ToString("N2", new CultureInfo("vi-VN")) + " VNĐ";
+        }
+        private decimal TinhTienGhe(Button ghe)
+        {
+            int GheChon = int.Parse(ghe.Text);
+            if (GheChon <= 4)
+                return 3000;
+            else if (GheChon <= 8)
+                return 4000;
+            else if (GheChon <= 12)
+                return 5000;
+            else if (GheChon <= 16)
+                return 6000;
+            else
+                return 8000;
+        }
         private void btnChon_Click(object sender, EventArgs e)
         {
             try
@@ -88,65 +150,44 @@ namespace BAN_VE_CINE
                     MessageBox.Show("Vui lòng chọn ít nhất một ghế!", "Thông Báo", MessageBoxButtons.OK, MessageBoxIcon.Warning);
                     return;
                 }
-                TinhTongTien();
-                //thay đổi màu ghế thành màu vàng
+
+                // Tính tổng tiền và thay đổi màu ghế thành màu vàng
+                decimal tongTien = 0;
                 foreach (Button item in lstChonGhe)
                 {
-                    item.BackColor = Color.Yellow;
+                    item.BackColor = Color.Yellow; // Đổi màu ghế đã chọn thành màu vàng
+                    tongTien += TinhTienGhe(item); // Cộng tiền của từng ghế vào tổng tiền
                 }
+
+                // Lấy thông tin giới tính
+                string gioiTinh = optNam.Checked ? "Nam" : "Nữ";
+
+                // Tạo danh sách chi tiết hóa đơn
+                List<CTHD> ChiTietHD = new List<CTHD>();
+
+                foreach (Button item in lstChonGhe)
+                {
+                    CTHD cTHD = new CTHD
+                    {
+                        vitrighe = item.Text, // Lưu vị trí ghế
+                        sotien = TinhTienGhe(item) // Lưu số tiền của ghế
+                    };
+                    ChiTietHD.Add(cTHD);
+                }
+
+                // Lưu thông tin đơn hàng và hóa đơn
+                LuuThongTinDonHang(txtName.Text, txtSDT.Text, cmbKhuVuc.Text, gioiTinh, DateTime.Now, tongTien, ChiTietHD);
+
+                // Load lại dữ liệu hóa đơn để hiển thị
+                LoadHoaDonData();
+
+                // Xóa danh sách ghế đã chọn
+                lstChonGhe.Clear();
             }
             catch (Exception ex)
             {
                 MessageBox.Show("Có lỗi xảy ra: " + ex.Message, "Lỗi", MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
-        }
-
-        private void btnHuy_Click(object sender, EventArgs e)
-        {
-            // Duyệt qua danh sách ghế đã chọn
-            foreach (Button item in lstChonGhe.ToList()) // Sử dụng ToList() để tránh thay đổi danh sách trong vòng lặp
-            {
-                if(item.BackColor == Color.LightBlue)
-                {
-                // Đổi màu ghế về màu xám (hoặc màu mặc định của bạn)
-                item.BackColor = Color.White;
-                // Xóa ghế khỏi danh sách đã chọn
-                lstChonGhe.Remove(item);
-                txtTongTien.Text = "0 VNĐ";
-                }
-            }
-        }
-        private void TinhTongTien()
-        {
-            // Kiểm tra nếu không có ghế nào được chọn
-            if (lstChonGhe.Count == 0)
-            {
-                txtTongTien.Text = "0 VNĐ";
-                return;
-            }
-
-            // Tính tổng tiền những ghế được chọn
-            double tongTien = 0;
-            foreach (Button item in lstChonGhe)
-            {
-                if (item.BackColor == Color.LightBlue) // Chỉ tính những ghế có màu LightBlue
-                {
-                    int GheChon = int.Parse(item.Text);
-                    if (GheChon <= 4)
-                        tongTien += 3000;
-                    else if (GheChon <= 8)
-                        tongTien += 4000;
-                    else if (GheChon <= 12)
-                        tongTien += 5000;
-                    else if (GheChon <= 16)
-                        tongTien += 6000;
-                    else
-                        tongTien += 8000;
-                }
-            }
-
-            // Hiển thị tổng tiền
-            txtTongTien.Text = tongTien.ToString("N2", new CultureInfo("vi-VN")) + " VNĐ";
         }
 
         private void btnThoat_Click(object sender, EventArgs e)
@@ -166,5 +207,88 @@ namespace BAN_VE_CINE
                 e.Cancel = true;
             }
         }
+
+
+        private void LuuThongTinDonHang(string tenKH, string sdt, string diachi, string gioitinh, DateTime ngayMua, decimal tongTien, List<CTHD> CTHDList)
+        {
+            using (var context = new BanVeCineEntities()) // Tạo DbContext để kết nối với database
+            {
+                using (var transaction = context.Database.BeginTransaction())
+                {
+                    try
+                    {
+                        // 1. Tạo mới khách hàng
+                        var khachHangMoi = new KHACHHANG
+                        {
+                            ten = tenKH, // Tên khách hàng
+                            sdt = sdt, // Số điện thoại
+                            diachi = diachi, // Địa chỉ
+                            gioitinh = gioitinh // Giới tính
+                        };
+
+                        // Thêm khách hàng mới vào DbSet của KHACHHANG
+                        context.KHACHHANG.Add(khachHangMoi);
+                        context.SaveChanges(); // Lưu lại để Entity Framework sinh mã khách hàng tự động
+
+                        // 2. Tạo mới hóa đơn cho khách hàng này
+                        var hoaDonMoi = new HOADON
+                        {
+                            ngay = ngayMua, // Ngày lập hóa đơn
+                            maKH = khachHangMoi.maKH, // Liên kết mã khách hàng với hóa đơn
+                            sotien = tongTien// Tổng số tiền cho tất cả ghế
+                        };
+
+                        // Thêm hóa đơn mới vào DbSet của HOADON
+                        context.HOADON.Add(hoaDonMoi);
+                        context.SaveChanges(); // Lưu lại để Entity Framework sinh mã hóa đơn tự động
+
+                        // 3. Tạo các chi tiết hóa đơn cho hóa đơn này
+                        foreach (var chitiet in CTHDList)
+                        {
+                            var cthdMoi = new CTHD
+                            {
+                                maHD = hoaDonMoi.maHD, // Liên kết mã hóa đơn với chi tiết hóa đơn
+                                vitrighe = chitiet.vitrighe, // Vị trí ghế
+                                sotien = chitiet.sotien // Số tiền cho từng ghế
+                            };
+                            // Thêm chi tiết hóa đơn vào DbSet của CTHD
+                            context.CTHD.Add(cthdMoi);
+                        }
+                        // 4. Lưu tất cả thay đổi vào cơ sở dữ liệu
+                        context.SaveChanges();
+                    }
+                    catch (Exception ex)
+                    {
+
+                        MessageBox.Show(ex.Message);
+                    }
+                }
+ 
+            }
+        }
+
+        private void LoadHoaDonData()
+        {
+            using (var context = new BanVeCineEntities())
+            {
+                var hoaDonData = (from hd in context.HOADON
+                                  join kh in context.KHACHHANG on hd.maKH equals kh.maKH
+                                  select new
+                                  {
+                                      MaHoaDon = hd.maHD,
+                                      TenKhachHang = kh.ten,
+                                      NgayDat = hd.ngay,
+                                      TongTien = hd.sotien
+                                  }).ToList();
+
+                // Đảm bảo rằng DataGridView được thiết lập với dữ liệu đúng
+                dgvKhachHang.DataSource = hoaDonData;
+
+                // Định dạng cột nếu cần
+                dgvKhachHang.Columns["NgayDat"].DefaultCellStyle.Format = "dd/MM/yyyy";
+                dgvKhachHang.Columns["TongTien"].DefaultCellStyle.Format = "C2"; // C2 là định dạng tiền tệ với 2 chữ số thập phân
+            }
+        }
+
     }
 }
