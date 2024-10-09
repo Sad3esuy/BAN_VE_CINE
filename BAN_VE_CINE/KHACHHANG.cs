@@ -20,7 +20,7 @@ namespace BAN_VE_CINE
             this.HOADON = new HashSet<HOADON>();
         }
     
-        public string maKH { get; set; }
+        public int maKH { get; set; }
         public string ten { get; set; }
         public string sdt { get; set; }
         public string diachi { get; set; }

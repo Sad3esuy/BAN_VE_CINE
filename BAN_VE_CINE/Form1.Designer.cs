@@ -33,7 +33,7 @@
             this.button1 = new System.Windows.Forms.Button();
             this.optNam = new System.Windows.Forms.RadioButton();
             this.label2 = new System.Windows.Forms.Label();
-            this.groupBox1 = new System.Windows.Forms.GroupBox();
+            this.grbViTriGheNgoi = new System.Windows.Forms.GroupBox();
             this.button20 = new System.Windows.Forms.Button();
             this.button16 = new System.Windows.Forms.Button();
             this.button12 = new System.Windows.Forms.Button();
@@ -54,6 +54,7 @@
             this.button5 = new System.Windows.Forms.Button();
             this.button2 = new System.Windows.Forms.Button();
             this.groupBox2 = new System.Windows.Forms.GroupBox();
+            this.btnThemKhuVuc = new System.Windows.Forms.Button();
             this.dgvKhachHang = new System.Windows.Forms.DataGridView();
             this.cmbKhuVuc = new System.Windows.Forms.ComboBox();
             this.optNu = new System.Windows.Forms.RadioButton();
@@ -68,7 +69,7 @@
             this.btnChon = new System.Windows.Forms.Button();
             this.btnHuy = new System.Windows.Forms.Button();
             this.btnThoat = new System.Windows.Forms.Button();
-            this.groupBox1.SuspendLayout();
+            this.grbViTriGheNgoi.SuspendLayout();
             this.groupBox2.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.dgvKhachHang)).BeginInit();
             this.SuspendLayout();
@@ -118,35 +119,35 @@
             this.label2.TabIndex = 0;
             this.label2.Text = "THÔNG TIN KHÁCH HÀNG";
             // 
-            // groupBox1
+            // grbViTriGheNgoi
             // 
-            this.groupBox1.BackColor = System.Drawing.SystemColors.ActiveCaption;
-            this.groupBox1.Controls.Add(this.button20);
-            this.groupBox1.Controls.Add(this.button16);
-            this.groupBox1.Controls.Add(this.button12);
-            this.groupBox1.Controls.Add(this.button8);
-            this.groupBox1.Controls.Add(this.button4);
-            this.groupBox1.Controls.Add(this.button19);
-            this.groupBox1.Controls.Add(this.button18);
-            this.groupBox1.Controls.Add(this.button15);
-            this.groupBox1.Controls.Add(this.button14);
-            this.groupBox1.Controls.Add(this.button11);
-            this.groupBox1.Controls.Add(this.button10);
-            this.groupBox1.Controls.Add(this.button17);
-            this.groupBox1.Controls.Add(this.button7);
-            this.groupBox1.Controls.Add(this.button13);
-            this.groupBox1.Controls.Add(this.button6);
-            this.groupBox1.Controls.Add(this.button9);
-            this.groupBox1.Controls.Add(this.button3);
-            this.groupBox1.Controls.Add(this.button5);
-            this.groupBox1.Controls.Add(this.button2);
-            this.groupBox1.Controls.Add(this.button1);
-            this.groupBox1.Location = new System.Drawing.Point(37, 68);
-            this.groupBox1.Name = "groupBox1";
-            this.groupBox1.Size = new System.Drawing.Size(437, 384);
-            this.groupBox1.TabIndex = 3;
-            this.groupBox1.TabStop = false;
-            this.groupBox1.Text = "Thông tin vị trí ghế ngồi";
+            this.grbViTriGheNgoi.BackColor = System.Drawing.SystemColors.ActiveCaption;
+            this.grbViTriGheNgoi.Controls.Add(this.button20);
+            this.grbViTriGheNgoi.Controls.Add(this.button16);
+            this.grbViTriGheNgoi.Controls.Add(this.button12);
+            this.grbViTriGheNgoi.Controls.Add(this.button8);
+            this.grbViTriGheNgoi.Controls.Add(this.button4);
+            this.grbViTriGheNgoi.Controls.Add(this.button19);
+            this.grbViTriGheNgoi.Controls.Add(this.button18);
+            this.grbViTriGheNgoi.Controls.Add(this.button15);
+            this.grbViTriGheNgoi.Controls.Add(this.button14);
+            this.grbViTriGheNgoi.Controls.Add(this.button11);
+            this.grbViTriGheNgoi.Controls.Add(this.button10);
+            this.grbViTriGheNgoi.Controls.Add(this.button17);
+            this.grbViTriGheNgoi.Controls.Add(this.button7);
+            this.grbViTriGheNgoi.Controls.Add(this.button13);
+            this.grbViTriGheNgoi.Controls.Add(this.button6);
+            this.grbViTriGheNgoi.Controls.Add(this.button9);
+            this.grbViTriGheNgoi.Controls.Add(this.button3);
+            this.grbViTriGheNgoi.Controls.Add(this.button5);
+            this.grbViTriGheNgoi.Controls.Add(this.button2);
+            this.grbViTriGheNgoi.Controls.Add(this.button1);
+            this.grbViTriGheNgoi.Location = new System.Drawing.Point(37, 68);
+            this.grbViTriGheNgoi.Name = "grbViTriGheNgoi";
+            this.grbViTriGheNgoi.Size = new System.Drawing.Size(437, 384);
+            this.grbViTriGheNgoi.TabIndex = 3;
+            this.grbViTriGheNgoi.TabStop = false;
+            this.grbViTriGheNgoi.Text = "Thông tin vị trí ghế ngồi";
             // 
             // button20
             // 
@@ -379,6 +380,7 @@
             // groupBox2
             // 
             this.groupBox2.BackColor = System.Drawing.Color.Silver;
+            this.groupBox2.Controls.Add(this.btnThemKhuVuc);
             this.groupBox2.Controls.Add(this.dgvKhachHang);
             this.groupBox2.Controls.Add(this.cmbKhuVuc);
             this.groupBox2.Controls.Add(this.optNu);
@@ -395,6 +397,16 @@
             this.groupBox2.TabIndex = 4;
             this.groupBox2.TabStop = false;
             this.groupBox2.Text = "Thông tin khách hàng";
+            // 
+            // btnThemKhuVuc
+            // 
+            this.btnThemKhuVuc.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(163)));
+            this.btnThemKhuVuc.Location = new System.Drawing.Point(672, 64);
+            this.btnThemKhuVuc.Name = "btnThemKhuVuc";
+            this.btnThemKhuVuc.Size = new System.Drawing.Size(30, 33);
+            this.btnThemKhuVuc.TabIndex = 10;
+            this.btnThemKhuVuc.Text = "+";
+            this.btnThemKhuVuc.UseVisualStyleBackColor = true;
             // 
             // dgvKhachHang
             // 
@@ -540,7 +552,7 @@
             this.Controls.Add(this.label3);
             this.Controls.Add(this.txtTongTien);
             this.Controls.Add(this.groupBox2);
-            this.Controls.Add(this.groupBox1);
+            this.Controls.Add(this.grbViTriGheNgoi);
             this.Controls.Add(this.label2);
             this.Controls.Add(this.label1);
             this.Font = new System.Drawing.Font("Microsoft Sans Serif", 7.8F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(163)));
@@ -549,7 +561,7 @@
             this.Text = "CHUONG TRINH BAN VE CINE";
             this.FormClosing += new System.Windows.Forms.FormClosingEventHandler(this.Form1_FormClosing);
             this.Load += new System.EventHandler(this.Form1_Load);
-            this.groupBox1.ResumeLayout(false);
+            this.grbViTriGheNgoi.ResumeLayout(false);
             this.groupBox2.ResumeLayout(false);
             this.groupBox2.PerformLayout();
             ((System.ComponentModel.ISupportInitialize)(this.dgvKhachHang)).EndInit();
@@ -564,7 +576,7 @@
         private System.Windows.Forms.Button button1;
         private System.Windows.Forms.RadioButton optNam;
         private System.Windows.Forms.Label label2;
-        private System.Windows.Forms.GroupBox groupBox1;
+        private System.Windows.Forms.GroupBox grbViTriGheNgoi;
         private System.Windows.Forms.Button button4;
         private System.Windows.Forms.Button button3;
         private System.Windows.Forms.Button button2;
@@ -599,6 +611,7 @@
         private System.Windows.Forms.Label label7;
         private System.Windows.Forms.Button btnHuy;
         private System.Windows.Forms.Button btnThoat;
+        private System.Windows.Forms.Button btnThemKhuVuc;
     }
 }
 

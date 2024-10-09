@@ -14,8 +14,8 @@ namespace BAN_VE_CINE
     
     public partial class CTHD
     {
-        public string ma { get; set; }
-        public string maHD { get; set; }
+        public int ma { get; set; }
+        public Nullable<int> maHD { get; set; }
         public string vitrighe { get; set; }
         public Nullable<decimal> sotien { get; set; }
     

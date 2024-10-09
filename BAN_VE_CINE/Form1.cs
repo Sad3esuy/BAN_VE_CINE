@@ -24,6 +24,7 @@ namespace BAN_VE_CINE
         private void Form1_Load(object sender, EventArgs e)
         {
             CaiDatThongTin();
+            LoadHoaDonData();
         }
 
         private void CaiDatThongTin()
@@ -38,15 +39,17 @@ namespace BAN_VE_CINE
             dgvKhachHang.Columns.Add("NgayDat", "Ngày Đặt");
 
             // Định dạng cột Ngày Đặt dưới dạng ngày tháng
-            dgvKhachHang.Columns["NgayDat"].DefaultCellStyle.Format = "dd/MM/yyyy";
+            //dgvKhachHang.Columns["NgayDat"].DefaultCellStyle.Format = "dd/MM/yyyy";
 
             // Thêm cột Tổng Tiền
             dgvKhachHang.Columns.Add("TongTien", "Tổng Tiền");
 
             // Định dạng cột Tổng Tiền dưới dạng tiền tệ
-            dgvKhachHang.Columns["TongTien"].DefaultCellStyle.Format = "C2"; // C2 là định dạng tiền tệ với 2 chữ số thập phân
+           // dgvKhachHang.Columns["TongTien"].DefaultCellStyle.Format = "C2"; // C2 là định dạng tiền tệ với 2 chữ số thập phân
 
             dgvKhachHang.AutoSizeColumnsMode = DataGridViewAutoSizeColumnsMode.Fill;
+            dgvKhachHang.AutoGenerateColumns = true;
+
 
             // Thêm các mục mới vào ComboBox
             cmbKhuVuc.Items.AddRange(new string[] { "Quận 9", "Thủ Đức", "Bình Thạnh", "Quận 1", "Quận 5", "Hóc Môn", "Bình Dương" });
@@ -279,16 +282,26 @@ namespace BAN_VE_CINE
                                       TenKhachHang = kh.ten,
                                       NgayDat = hd.ngay,
                                       TongTien = hd.sotien
-                                  }).ToList();
+                                  });
 
-                // Đảm bảo rằng DataGridView được thiết lập với dữ liệu đúng
-                dgvKhachHang.DataSource = hoaDonData;
-
-                // Định dạng cột nếu cần
-                dgvKhachHang.Columns["NgayDat"].DefaultCellStyle.Format = "dd/MM/yyyy";
-                dgvKhachHang.Columns["TongTien"].DefaultCellStyle.Format = "C2"; // C2 là định dạng tiền tệ với 2 chữ số thập phân
+                    dgvKhachHang.DataSource = hoaDonData.ToList();
             }
         }
 
+
+
+
+        private void LoadDanhSachGheDaBan()
+        {
+            using (var context = new BanVeCineEntities())
+            {
+                var gheDaBan = (from ghe in context.CTHD
+                                select ghe.vitrighe).ToList();
+                foreach (Button ghe in grbViTriGheNgoi.Controls.OfType<Button>())
+                {
+
+                }
+            }
+        }
     }
 }

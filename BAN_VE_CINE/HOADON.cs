@@ -20,8 +20,8 @@ namespace BAN_VE_CINE
             this.CTHD = new HashSet<CTHD>();
         }
     
-        public string maHD { get; set; }
-        public string maKH { get; set; }
+        public int maHD { get; set; }
+        public Nullable<int> maKH { get; set; }
         public Nullable<System.DateTime> ngay { get; set; }
         public Nullable<decimal> sotien { get; set; }
     

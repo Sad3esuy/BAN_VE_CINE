@@ -4,13 +4,13 @@
   <edmx:Runtime>
     <!-- SSDL content -->
     <edmx:StorageModels>
-      <Schema Namespace="BanVeCineModel.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2012" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+    <Schema Namespace="BanVeCineModel.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2012" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
         <EntityType Name="CTHD">
           <Key>
             <PropertyRef Name="ma" />
           </Key>
-          <Property Name="ma" Type="varchar" MaxLength="5" Nullable="false" />
-          <Property Name="maHD" Type="varchar" MaxLength="5" />
+          <Property Name="ma" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="maHD" Type="int" />
           <Property Name="vitrighe" Type="nvarchar" MaxLength="10" />
           <Property Name="sotien" Type="decimal" Precision="18" Scale="2" />
         </EntityType>
@@ -18,8 +18,8 @@
           <Key>
             <PropertyRef Name="maHD" />
           </Key>
-          <Property Name="maHD" Type="varchar" MaxLength="5" Nullable="false" />
-          <Property Name="maKH" Type="varchar" MaxLength="5" />
+          <Property Name="maHD" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="maKH" Type="int" />
           <Property Name="ngay" Type="date" />
           <Property Name="sotien" Type="decimal" Precision="18" Scale="2" />
         </EntityType>
@@ -27,7 +27,7 @@
           <Key>
             <PropertyRef Name="maKH" />
           </Key>
-          <Property Name="maKH" Type="varchar" MaxLength="5" Nullable="false" />
+          <Property Name="maKH" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
           <Property Name="ten" Type="nvarchar" MaxLength="100" />
           <Property Name="sdt" Type="varchar" MaxLength="15" />
           <Property Name="diachi" Type="nvarchar" MaxLength="255" />
@@ -81,8 +81,7 @@
             <End Role="HOADON" EntitySet="HOADON" />
           </AssociationSet>
         </EntityContainer>
-      </Schema>
-    </edmx:StorageModels>
+      </Schema></edmx:StorageModels>
     <!-- CSDL content -->
     <edmx:ConceptualModels>
       <Schema Namespace="BanVeCineModel" Alias="Self" annotation:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
@@ -90,8 +89,8 @@
           <Key>
             <PropertyRef Name="ma" />
           </Key>
-          <Property Name="ma" Type="String" MaxLength="5" FixedLength="false" Unicode="false" Nullable="false" />
-          <Property Name="maHD" Type="String" MaxLength="5" FixedLength="false" Unicode="false" />
+          <Property Name="ma" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="maHD" Type="Int32" />
           <Property Name="vitrighe" Type="String" MaxLength="10" FixedLength="false" Unicode="true" />
           <Property Name="sotien" Type="Decimal" Precision="18" Scale="2" />
           <NavigationProperty Name="HOADON" Relationship="Self.FK__CTHD__maHD__3C69FB99" FromRole="CTHD" ToRole="HOADON" />
@@ -100,8 +99,8 @@
           <Key>
             <PropertyRef Name="maHD" />
           </Key>
-          <Property Name="maHD" Type="String" MaxLength="5" FixedLength="false" Unicode="false" Nullable="false" />
-          <Property Name="maKH" Type="String" MaxLength="5" FixedLength="false" Unicode="false" />
+          <Property Name="maHD" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="maKH" Type="Int32" />
           <Property Name="ngay" Type="DateTime" Precision="0" />
           <Property Name="sotien" Type="Decimal" Precision="18" Scale="2" />
           <NavigationProperty Name="CTHD" Relationship="Self.FK__CTHD__maHD__3C69FB99" FromRole="HOADON" ToRole="CTHD" />
@@ -111,7 +110,7 @@
           <Key>
             <PropertyRef Name="maKH" />
           </Key>
-          <Property Name="maKH" Type="String" MaxLength="5" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="maKH" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
           <Property Name="ten" Type="String" MaxLength="100" FixedLength="false" Unicode="true" />
           <Property Name="sdt" Type="String" MaxLength="15" FixedLength="false" Unicode="false" />
           <Property Name="diachi" Type="String" MaxLength="255" FixedLength="false" Unicode="true" />
