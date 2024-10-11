@@ -54,7 +54,6 @@
             this.button5 = new System.Windows.Forms.Button();
             this.button2 = new System.Windows.Forms.Button();
             this.groupBox2 = new System.Windows.Forms.GroupBox();
-            this.btnThemKhuVuc = new System.Windows.Forms.Button();
             this.dgvKhachHang = new System.Windows.Forms.DataGridView();
             this.cmbKhuVuc = new System.Windows.Forms.ComboBox();
             this.optNu = new System.Windows.Forms.RadioButton();
@@ -69,6 +68,7 @@
             this.btnChon = new System.Windows.Forms.Button();
             this.btnHuy = new System.Windows.Forms.Button();
             this.btnThoat = new System.Windows.Forms.Button();
+            this.btnThemKhuVuc = new System.Windows.Forms.Button();
             this.grbViTriGheNgoi.SuspendLayout();
             this.groupBox2.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.dgvKhachHang)).BeginInit();
@@ -398,16 +398,6 @@
             this.groupBox2.TabStop = false;
             this.groupBox2.Text = "Thông tin khách hàng";
             // 
-            // btnThemKhuVuc
-            // 
-            this.btnThemKhuVuc.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(163)));
-            this.btnThemKhuVuc.Location = new System.Drawing.Point(672, 64);
-            this.btnThemKhuVuc.Name = "btnThemKhuVuc";
-            this.btnThemKhuVuc.Size = new System.Drawing.Size(30, 33);
-            this.btnThemKhuVuc.TabIndex = 10;
-            this.btnThemKhuVuc.Text = "+";
-            this.btnThemKhuVuc.UseVisualStyleBackColor = true;
-            // 
             // dgvKhachHang
             // 
             this.dgvKhachHang.AllowUserToAddRows = false;
@@ -540,6 +530,16 @@
             this.btnThoat.Text = "Thoát";
             this.btnThoat.UseVisualStyleBackColor = true;
             this.btnThoat.Click += new System.EventHandler(this.btnThoat_Click);
+            // 
+            // btnThemKhuVuc
+            // 
+            this.btnThemKhuVuc.BackgroundImage = ((System.Drawing.Image)(resources.GetObject("btnThemKhuVuc.BackgroundImage")));
+            this.btnThemKhuVuc.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Zoom;
+            this.btnThemKhuVuc.Location = new System.Drawing.Point(673, 70);
+            this.btnThemKhuVuc.Name = "btnThemKhuVuc";
+            this.btnThemKhuVuc.Size = new System.Drawing.Size(26, 24);
+            this.btnThemKhuVuc.TabIndex = 10;
+            this.btnThemKhuVuc.UseVisualStyleBackColor = true;
             // 
             // Form1
             // 
