@@ -28,6 +28,7 @@
         /// </summary>
         private void InitializeComponent()
         {
+            this.components = new System.ComponentModel.Container();
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(Form1));
             this.label1 = new System.Windows.Forms.Label();
             this.button1 = new System.Windows.Forms.Button();
@@ -54,6 +55,7 @@
             this.button5 = new System.Windows.Forms.Button();
             this.button2 = new System.Windows.Forms.Button();
             this.groupBox2 = new System.Windows.Forms.GroupBox();
+            this.btnThemKhuVuc = new System.Windows.Forms.Button();
             this.dgvKhachHang = new System.Windows.Forms.DataGridView();
             this.cmbKhuVuc = new System.Windows.Forms.ComboBox();
             this.optNu = new System.Windows.Forms.RadioButton();
@@ -68,10 +70,19 @@
             this.btnChon = new System.Windows.Forms.Button();
             this.btnHuy = new System.Windows.Forms.Button();
             this.btnThoat = new System.Windows.Forms.Button();
-            this.btnThemKhuVuc = new System.Windows.Forms.Button();
+            this.errorProvider1 = new System.Windows.Forms.ErrorProvider(this.components);
+            this.errorProvider2 = new System.Windows.Forms.ErrorProvider(this.components);
+            this.errorProvider3 = new System.Windows.Forms.ErrorProvider(this.components);
+            this.errorProvider4 = new System.Windows.Forms.ErrorProvider(this.components);
+            this.btnXoa = new System.Windows.Forms.Button();
+            this.btnSua = new System.Windows.Forms.Button();
             this.grbViTriGheNgoi.SuspendLayout();
             this.groupBox2.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.dgvKhachHang)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.errorProvider1)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.errorProvider2)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.errorProvider3)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.errorProvider4)).BeginInit();
             this.SuspendLayout();
             // 
             // label1
@@ -398,6 +409,16 @@
             this.groupBox2.TabStop = false;
             this.groupBox2.Text = "Thông tin khách hàng";
             // 
+            // btnThemKhuVuc
+            // 
+            this.btnThemKhuVuc.BackgroundImage = ((System.Drawing.Image)(resources.GetObject("btnThemKhuVuc.BackgroundImage")));
+            this.btnThemKhuVuc.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Zoom;
+            this.btnThemKhuVuc.Location = new System.Drawing.Point(684, 70);
+            this.btnThemKhuVuc.Name = "btnThemKhuVuc";
+            this.btnThemKhuVuc.Size = new System.Drawing.Size(26, 24);
+            this.btnThemKhuVuc.TabIndex = 10;
+            this.btnThemKhuVuc.UseVisualStyleBackColor = true;
+            // 
             // dgvKhachHang
             // 
             this.dgvKhachHang.AllowUserToAddRows = false;
@@ -411,6 +432,7 @@
             this.dgvKhachHang.RowTemplate.Height = 24;
             this.dgvKhachHang.Size = new System.Drawing.Size(845, 345);
             this.dgvKhachHang.TabIndex = 9;
+            this.dgvKhachHang.CellClick += new System.Windows.Forms.DataGridViewCellEventHandler(this.dgvKhachHang_CellClick);
             // 
             // cmbKhuVuc
             // 
@@ -487,7 +509,7 @@
             // 
             // txtTongTien
             // 
-            this.txtTongTien.Location = new System.Drawing.Point(331, 476);
+            this.txtTongTien.Location = new System.Drawing.Point(331, 520);
             this.txtTongTien.Name = "txtTongTien";
             this.txtTongTien.Size = new System.Drawing.Size(143, 22);
             this.txtTongTien.TabIndex = 6;
@@ -495,7 +517,7 @@
             // label3
             // 
             this.label3.AutoSize = true;
-            this.label3.Location = new System.Drawing.Point(252, 479);
+            this.label3.Location = new System.Drawing.Point(252, 523);
             this.label3.Name = "label3";
             this.label3.Size = new System.Drawing.Size(76, 16);
             this.label3.TabIndex = 7;
@@ -503,7 +525,7 @@
             // 
             // btnChon
             // 
-            this.btnChon.Location = new System.Drawing.Point(40, 470);
+            this.btnChon.Location = new System.Drawing.Point(37, 470);
             this.btnChon.Name = "btnChon";
             this.btnChon.Size = new System.Drawing.Size(85, 34);
             this.btnChon.TabIndex = 8;
@@ -513,7 +535,7 @@
             // 
             // btnHuy
             // 
-            this.btnHuy.Location = new System.Drawing.Point(150, 470);
+            this.btnHuy.Location = new System.Drawing.Point(130, 470);
             this.btnHuy.Name = "btnHuy";
             this.btnHuy.Size = new System.Drawing.Size(85, 34);
             this.btnHuy.TabIndex = 8;
@@ -531,21 +553,49 @@
             this.btnThoat.UseVisualStyleBackColor = true;
             this.btnThoat.Click += new System.EventHandler(this.btnThoat_Click);
             // 
-            // btnThemKhuVuc
+            // errorProvider1
             // 
-            this.btnThemKhuVuc.BackgroundImage = ((System.Drawing.Image)(resources.GetObject("btnThemKhuVuc.BackgroundImage")));
-            this.btnThemKhuVuc.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Zoom;
-            this.btnThemKhuVuc.Location = new System.Drawing.Point(673, 70);
-            this.btnThemKhuVuc.Name = "btnThemKhuVuc";
-            this.btnThemKhuVuc.Size = new System.Drawing.Size(26, 24);
-            this.btnThemKhuVuc.TabIndex = 10;
-            this.btnThemKhuVuc.UseVisualStyleBackColor = true;
+            this.errorProvider1.ContainerControl = this;
+            // 
+            // errorProvider2
+            // 
+            this.errorProvider2.ContainerControl = this;
+            // 
+            // errorProvider3
+            // 
+            this.errorProvider3.ContainerControl = this;
+            // 
+            // errorProvider4
+            // 
+            this.errorProvider4.ContainerControl = this;
+            // 
+            // btnXoa
+            // 
+            this.btnXoa.Location = new System.Drawing.Point(389, 470);
+            this.btnXoa.Name = "btnXoa";
+            this.btnXoa.Size = new System.Drawing.Size(85, 34);
+            this.btnXoa.TabIndex = 9;
+            this.btnXoa.Text = "Xoá";
+            this.btnXoa.UseVisualStyleBackColor = true;
+            this.btnXoa.Click += new System.EventHandler(this.btnXoa_Click);
+            // 
+            // btnSua
+            // 
+            this.btnSua.Location = new System.Drawing.Point(296, 470);
+            this.btnSua.Name = "btnSua";
+            this.btnSua.Size = new System.Drawing.Size(85, 34);
+            this.btnSua.TabIndex = 10;
+            this.btnSua.Text = "Sửa";
+            this.btnSua.UseVisualStyleBackColor = true;
+            this.btnSua.Click += new System.EventHandler(this.btnSua_Click);
             // 
             // Form1
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(9F, 16F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(1430, 624);
+            this.Controls.Add(this.btnSua);
+            this.Controls.Add(this.btnXoa);
             this.Controls.Add(this.btnHuy);
             this.Controls.Add(this.btnThoat);
             this.Controls.Add(this.btnChon);
@@ -565,6 +615,10 @@
             this.groupBox2.ResumeLayout(false);
             this.groupBox2.PerformLayout();
             ((System.ComponentModel.ISupportInitialize)(this.dgvKhachHang)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.errorProvider1)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.errorProvider2)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.errorProvider3)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.errorProvider4)).EndInit();
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -612,6 +666,12 @@
         private System.Windows.Forms.Button btnHuy;
         private System.Windows.Forms.Button btnThoat;
         private System.Windows.Forms.Button btnThemKhuVuc;
+        private System.Windows.Forms.ErrorProvider errorProvider1;
+        private System.Windows.Forms.ErrorProvider errorProvider2;
+        private System.Windows.Forms.ErrorProvider errorProvider3;
+        private System.Windows.Forms.ErrorProvider errorProvider4;
+        private System.Windows.Forms.Button btnXoa;
+        private System.Windows.Forms.Button btnSua;
     }
 }
 

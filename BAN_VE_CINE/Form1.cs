@@ -76,8 +76,8 @@ namespace BAN_VE_CINE
 
                 dgvKhachHang.AutoSizeColumnsMode = DataGridViewAutoSizeColumnsMode.Fill;
                 cmbKhuVuc.Items.AddRange(new string[] { "Quận 9", "Thủ Đức", "Bình Thạnh", "Quận 1", "Quận 5", "Hóc Môn", "Bình Dương" });
-                cmbKhuVuc.SelectedIndex = 0;
-                optNu.Checked = true;
+                cmbKhuVuc.SelectedIndex = -1;
+                //optNu.Checked = true;
                 txtTongTien.Text = "0 VNĐ";
                 txtTongTien.ReadOnly = true;
             }
@@ -144,31 +144,42 @@ namespace BAN_VE_CINE
         {
             try
             {
-                if (!lstChonGhe.Any(item => item.BackColor == Color.LightBlue))
+                if (KiemTraSDTTonTaiTrongDGV() == false)
                 {
-                    MessageBox.Show("Vui lòng chọn ít nhất một ghế!", "Thông Báo", MessageBoxButtons.OK, MessageBoxIcon.Warning);
-                    return;
+                    if (KiemTraNhapLieu())
+                    {
+                        if (!lstChonGhe.Any(item => item.BackColor == Color.LightBlue))
+                        {
+                            MessageBox.Show("Vui lòng chọn ít nhất một ghế!", "Thông Báo", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                            return;
+                        }
+
+                        decimal tongTien = 0;
+                        foreach (Button item in lstChonGhe)
+                        {
+                            item.BackColor = Color.Yellow;
+                            tongTien += TinhTienGhe(item);
+                        }
+
+                        string gioiTinh = optNam.Checked ? "Nam" : "Nữ";
+                        List<CTHD> ChiTietHD = lstChonGhe.Where(item => item.BackColor == Color.Yellow).Select(item => new CTHD
+                        {
+                            vitrighe = item.Text,
+                            sotien = TinhTienGhe(item)
+                        }).ToList();
+
+                        LuuThongTinDonHang(txtName.Text, txtSDT.Text, cmbKhuVuc.Text, gioiTinh, DateTime.Now, tongTien, ChiTietHD);
+                        txtTongTien.Text = tongTien.ToString("N2", new CultureInfo("vi-VN")) + " VNĐ";
+                        MessageBox.Show("Thêm Khách hàng thành công!", "Thông báo", MessageBoxButtons.OK);
+                        LoadHoaDonData();
+                        lstChonGhe.Clear();
+                        ResetInput();
+                    }
                 }
-
-                decimal tongTien = 0;
-                foreach (Button item in lstChonGhe)
+                else 
                 {
-                    item.BackColor = Color.Yellow;
-                    tongTien += TinhTienGhe(item);
+                        MessageBox.Show("Khách hàng đã tồn tại", "Thông báo", MessageBoxButtons.OK,MessageBoxIcon.Warning);
                 }
-
-                string gioiTinh = optNam.Checked ? "Nam" : "Nữ";
-                List<CTHD> ChiTietHD = lstChonGhe.Where(item => item.BackColor == Color.Yellow).Select(item => new CTHD
-                {
-                    vitrighe = item.Text,
-                    sotien = TinhTienGhe(item)
-                }).ToList();
-
-                LuuThongTinDonHang(txtName.Text, txtSDT.Text, cmbKhuVuc.Text, gioiTinh, DateTime.Now, tongTien, ChiTietHD);
-                txtTongTien.Text = tongTien.ToString("N2", new CultureInfo("vi-VN")) + " VNĐ";
-
-                LoadHoaDonData();
-                lstChonGhe.Clear();
             }
             catch (Exception ex)
             {
@@ -176,6 +187,78 @@ namespace BAN_VE_CINE
             }
         }
 
+        // Hàm kiểm tra nhập liệu
+        private bool KiemTraNhapLieu()
+        {
+            errorProvider1.Clear();
+            errorProvider2.Clear();
+            errorProvider3.Clear();
+            errorProvider4.Clear();  // Đảm bảo xóa sạch lỗi trước
+
+            bool isValid = true;
+
+            // Kiểm tra tên
+            if (string.IsNullOrWhiteSpace(txtName.Text))
+            {
+                errorProvider1.SetError(txtName, "Vui lòng nhập tên!");
+                isValid = false;
+            }
+
+            // Kiểm tra số điện thoại
+            if (string.IsNullOrWhiteSpace(txtSDT.Text))
+            {
+                errorProvider2.SetError(txtSDT, "Vui lòng nhập số điện thoại!");
+                isValid = false;
+            }
+            else if (!txtSDT.Text.All(char.IsDigit))
+            {
+                errorProvider2.SetError(txtSDT, "Số điện thoại phải là chữ số!");
+            }
+            else if (txtSDT.Text.Length != 10)
+            {
+                errorProvider2.SetError(txtSDT, "Số điện thoại phải có 10 chữ số!");
+                isValid = false;
+            }
+
+            // Kiểm tra khu vực
+            if (cmbKhuVuc.SelectedIndex == -1)
+            {
+                errorProvider3.SetError(cmbKhuVuc, "Vui lòng chọn khu vực!");
+                isValid = false;
+            }
+
+            // Kiểm tra giới tính
+            if (!optNam.Checked && !optNu.Checked)
+            {
+                errorProvider4.SetError(optNu, "Vui lòng chọn giới tính!");
+                isValid = false;
+            }
+
+            return isValid;
+        }
+        private bool KiemTraSDTTonTaiTrongDGV()
+        {
+            // Duyệt qua tất cả các hàng trong dgvKhachHang
+            foreach (DataGridViewRow row in dgvKhachHang.Rows)
+            {
+                // Kiểm tra nếu cột Số Điện Thoại (giả sử cột số 3) có giá trị trùng với txtSDT.Text
+                if (row.Cells["SoDienThoai"].Value != null && row.Cells["SoDienThoai"].Value.ToString() == txtSDT.Text)
+                {
+                    return true; // Nếu trùng thì trả về true
+                }
+            }
+            return false; // Không tìm thấy thì trả về false
+        }
+
+        // Hàm reset input
+        private void ResetInput()
+        {
+            txtName.Clear();
+            txtSDT.Clear();
+            optNu.Checked = false;
+            optNam.Checked = false;
+            cmbKhuVuc.SelectedIndex = -1;
+        }
         private void btnThoat_Click(object sender, EventArgs e)
         {
             if (MessageBox.Show("Bạn có muốn thoát?", "Lựa Chọn", MessageBoxButtons.YesNo, MessageBoxIcon.Question) == DialogResult.Yes)
@@ -276,9 +359,149 @@ namespace BAN_VE_CINE
                         btnGhe.Enabled = false; // Không cho phép ch?n gh? ?? b?n
                         btnGhe.BackColor = Color.Yellow; // Đặt màu vàng cho ghế đã bán
                     }
+                    else
+                    {
+                        btnGhe.BackColor = Color.White;    // Đổi màu ghế đã bị xóa thành màu trắng
+                        btnGhe.Enabled = true;
+                    }
                 }
             }
         }
+
+        private void btnXoa_Click(object sender, EventArgs e)
+        {
+            try
+            {
+                string sdt = txtSDT.Text.Trim();
+
+                if (string.IsNullOrEmpty(sdt))
+                {
+                    MessageBox.Show("Vui lòng nhập số điện thoại khách hàng để xóa!", "Thông Báo", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                    return;
+                }
+
+                using (var context = new BanVeCineEntities())
+                {
+                    // Tìm khách hàng dựa trên số điện thoại
+                    var khachHang = context.KHACHHANG.FirstOrDefault(kh => kh.sdt == sdt);
+
+                    if (khachHang == null)
+                    {
+                        MessageBox.Show("Không tìm thấy khách hàng với số điện thoại này!", "Thông Báo", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                        return;
+                    }
+                    else
+                    {
+                        DialogResult result = MessageBox.Show("Bạn có chắc muốn xóa khách hàng này?", "Xác nhận", MessageBoxButtons.YesNo);
+                        if (result == DialogResult.Yes)
+                        {
+                            // Tìm các hóa đơn liên quan đến khách hàng đó
+                            var hoaDons = context.HOADON.Where(hd => hd.maKH == khachHang.maKH).ToList();
+
+                            // Xóa các chi tiết hóa đơn
+                            foreach (var hoaDon in hoaDons)
+                            {
+                                var chiTietHDs = context.CTHD.Where(ct => ct.maHD == hoaDon.maHD).ToList();
+                                context.CTHD.RemoveRange(chiTietHDs);
+                            }
+
+                            // Xóa các hóa đơn
+                            context.HOADON.RemoveRange(hoaDons);
+
+                            // Xóa khách hàng
+                            context.KHACHHANG.Remove(khachHang);
+
+                            // Lưu thay đổi vào cơ sở dữ liệu
+                            context.SaveChanges();
+
+                            MessageBox.Show("Xóa thành công!", "Thông Báo", MessageBoxButtons.OK, MessageBoxIcon.Information);
+
+                            // Cập nhật lại DataGridView
+                            LoadHoaDonData();
+                            LoadGheDaBan();
+                            ResetInput();
+                        }
+                    }
+                }
+            }
+            catch (Exception ex)
+            {
+
+                MessageBox.Show(ex.Message);
+            }
+        }
+
+        private void btnSua_Click(object sender, EventArgs e)
+        {
+            try
+            {
+                string sdt = txtSDT.Text.Trim();
+
+                if (string.IsNullOrEmpty(sdt))
+                {
+                    MessageBox.Show("Vui lòng nhập số điện thoại khách hàng để sửa!", "Thông Báo", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                    return;
+                }
+
+                using (var context = new BanVeCineEntities())
+                {
+                    // Tìm khách hàng dựa trên số điện thoại
+                    var khachHang = context.KHACHHANG.FirstOrDefault(kh => kh.sdt == sdt);
+
+                    if (khachHang == null)
+                    {
+                        MessageBox.Show("Không tìm thấy khách hàng với số điện thoại này!", "Thông Báo", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                        return;
+                    }
+
+                    // Cập nhật thông tin khách hàng
+                    khachHang.ten = txtName.Text;
+                    khachHang.diachi = cmbKhuVuc.Text;
+                    khachHang.gioitinh = optNam.Checked ? "Nam" : "Nữ";
+
+                    // Lưu thay đổi vào cơ sở dữ liệu
+                    context.SaveChanges();
+
+                    MessageBox.Show("Sửa thông tin khách hàng thành công!", "Thông Báo", MessageBoxButtons.OK, MessageBoxIcon.Information);
+
+                    // Cập nhật lại DataGridView
+                    LoadHoaDonData();
+                    ResetInput();
+                }
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show("Có lỗi xảy ra: " + ex.Message, "Lỗi", MessageBoxButtons.OK, MessageBoxIcon.Error);
+            }
+        }
+
+        private void dgvKhachHang_CellClick(object sender, DataGridViewCellEventArgs e)
+        {
+            // Kiểm tra chỉ số hàng và cột có hợp lệ hay không
+            if (e.RowIndex >= 0 && e.ColumnIndex >= 0)
+            {
+                DataGridViewRow row = dgvKhachHang.Rows[e.RowIndex];
+
+                // Gán giá trị từ DataGridView vào các TextBox, kiểm tra giá trị null trước khi gán
+                txtName.Text = row.Cells[1].Value != null ? row.Cells[1].Value.ToString() : string.Empty;
+
+                // Kiểm tra và gán giá trị cho các RadioButton dựa trên giới tính
+                string gender = row.Cells[2].Value != null ? row.Cells[2].Value.ToString() : string.Empty;
+                if (gender == "Nữ")
+                {
+                    optNu.Checked = true;
+                }
+                else if (gender == "Nam")
+                {
+                    optNam.Checked = true;
+                }
+
+                // Gán số điện thoại và khu vực
+                txtSDT.Text = row.Cells[3].Value != null ? row.Cells[3].Value.ToString() : string.Empty;
+                cmbKhuVuc.Text = row.Cells[4].Value != null ? row.Cells[4].Value.ToString() : string.Empty;
+            }
+        }
+
 
     }
 }
