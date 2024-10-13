@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Drawing;
 using System.Globalization;
 using System.Linq;
+using System.Runtime.Remoting.Contexts;
 using System.Windows.Forms;
 
 namespace BAN_VE_CINE
@@ -58,31 +59,42 @@ namespace BAN_VE_CINE
                 var item = from a in dbcontext.KHACHHANG
                            join b in dbcontext.HOADON on a.maKH equals b.maKH
                            join c in dbcontext.CTHD on b.maHD equals c.maHD
+                           join kv in dbcontext.KHUVUC on a.maKV equals kv.maKV
                            select new
                            {
                                MaHoaDon = b.maHD,
                                TenKhachHang = a.ten,
-                               GioiTinh = a.gioitinh, // Giả sử có thuộc tính 'gioitinh' trong KHACHHANG
-                               SoDienThoai = a.sdt, // Giả sử có thuộc tính 'sdt' trong KHACHHANG
-                               KhuVuc = a.diachi, // Giả sử có thuộc tính 'diachi' trong KHACHHANG
+                               GioiTinh = a.gioitinh,
+                               SoDienThoai = a.sdt,
+                               KhuVuc = kv.tenKV,  // Lấy tên khu vực từ bảng KHUVUC
                                NgayDat = b.ngay,
                                TongTien = c.sotien
                            };
 
                 foreach (var c in item.ToList())
                 {
-                    dgvKhachHang.Rows.Add(c.MaHoaDon, c.TenKhachHang, c.NgayDat, c.TongTien, c.GioiTinh, c.KhuVuc, c.SoDienThoai);
+                    dgvKhachHang.Rows.Add(c.MaHoaDon, c.TenKhachHang, c.GioiTinh, c.SoDienThoai, c.KhuVuc, c.NgayDat, c.TongTien);
                 }
 
                 dgvKhachHang.AutoSizeColumnsMode = DataGridViewAutoSizeColumnsMode.Fill;
-                cmbKhuVuc.Items.AddRange(new string[] { "Quận 9", "Thủ Đức", "Bình Thạnh", "Quận 1", "Quận 5", "Hóc Môn", "Bình Dương" });
+
+                //cmbKhuVuc.Items.AddRange(new string[] { "Quận 9", "Thủ Đức", "Bình Thạnh", "Quận 1", "Quận 5", "Hóc Môn", "Bình Dương" });
+                List<KHUVUC> listKhuVuc = dbcontext.KHUVUC.ToList(); //lấy các khuc vuc
+                FillKhuVucCombobox(listKhuVuc);
                 cmbKhuVuc.SelectedIndex = -1;
                 //optNu.Checked = true;
                 txtTongTien.Text = "0 VNĐ";
                 txtTongTien.ReadOnly = true;
+                cmbKhuVuc.DropDownStyle = ComboBoxStyle.DropDownList;
             }
         }
-
+        //Hàm binding list có tên hiện thị là tên khoa, giá trị là Mã khoa
+        private void FillKhuVucCombobox(List<KHUVUC> listKhuVuc)
+        {
+            this.cmbKhuVuc.DataSource = listKhuVuc;
+            this.cmbKhuVuc.DisplayMember = "tenKV";
+            this.cmbKhuVuc.ValueMember = "maKV";
+        }
 
         private void btnChonGhe_Click(object sender, EventArgs e)
         {
@@ -275,7 +287,7 @@ namespace BAN_VE_CINE
             }
         }
 
-        private void LuuThongTinDonHang(string tenKH, string sdt, string diachi, string gioitinh, DateTime ngayMua, decimal tongTien, List<CTHD> CTHDList)
+        private void LuuThongTinDonHang(string tenKH, string sdt, string tenKV, string gioitinh, DateTime ngayMua, decimal tongTien, List<CTHD> CTHDList)
         {
             using (var context = new BanVeCineEntities())
             {
@@ -283,17 +295,45 @@ namespace BAN_VE_CINE
                 {
                     try
                     {
-                        var khachHangMoi = new KHACHHANG { ten = tenKH, sdt = sdt, diachi = diachi, gioitinh = gioitinh };
+                        // Tìm hoặc thêm khu vực mới nếu khu vực không tồn tại
+                        var khuVuc = context.KHUVUC.FirstOrDefault(kv => kv.tenKV == tenKV);
+                        if (khuVuc == null)
+                        {
+                            khuVuc = new KHUVUC { tenKV = tenKV };
+                            context.KHUVUC.Add(khuVuc);
+                            context.SaveChanges(); // Lưu lại để có maKV cho khu vực mới
+                        }
+
+                        // Tạo khách hàng mới với thông tin mã khu vực
+                        var khachHangMoi = new KHACHHANG
+                        {
+                            ten = tenKH,
+                            sdt = sdt,
+                            maKV = khuVuc.maKV,  // Ánh xạ mã khu vực từ bảng KHUVUC
+                            gioitinh = gioitinh
+                        };
                         context.KHACHHANG.Add(khachHangMoi);
                         context.SaveChanges();
 
-                        var hoaDonMoi = new HOADON { ngay = DateTime.Now, maKH = khachHangMoi.maKH, sotien = tongTien };
+                        // Tạo hóa đơn mới
+                        var hoaDonMoi = new HOADON
+                        {
+                            ngay = ngayMua,  // Sử dụng ngày mua truyền vào
+                            maKH = khachHangMoi.maKH,
+                            sotien = tongTien
+                        };
                         context.HOADON.Add(hoaDonMoi);
                         context.SaveChanges();
 
+                        // Lưu chi tiết hóa đơn
                         foreach (var chitiet in CTHDList)
                         {
-                            context.CTHD.Add(new CTHD { maHD = hoaDonMoi.maHD, vitrighe = chitiet.vitrighe, sotien = chitiet.sotien });
+                            context.CTHD.Add(new CTHD
+                            {
+                                maHD = hoaDonMoi.maHD,
+                                vitrighe = chitiet.vitrighe,
+                                sotien = chitiet.sotien
+                            });
                         }
 
                         context.SaveChanges();
@@ -309,6 +349,7 @@ namespace BAN_VE_CINE
         }
 
 
+
         private void LoadHoaDonData()
         {
             dgvKhachHang.Rows.Clear(); // Clear the existing rows before loading new data
@@ -317,13 +358,14 @@ namespace BAN_VE_CINE
             {
                 var hoaDonData = (from hd in context.HOADON
                                   join kh in context.KHACHHANG on hd.maKH equals kh.maKH
+                                  join kv in context.KHUVUC on kh.maKV equals kv.maKV // Join thêm với bảng KHUVUC để lấy tên khu vực
                                   select new
                                   {
                                       MaHoaDon = hd.maHD,
                                       TenKhachHang = kh.ten,
                                       GioiTinh = kh.gioitinh, // Thêm Giới tính
                                       SoDienThoai = kh.sdt, // Thêm Số Điện Thoại
-                                      KhuVuc = kh.diachi, // Thêm Khu Vực
+                                      KhuVuc = kv.tenKV, // Lấy tên khu vực từ bảng KHUVUC
                                       NgayDat = hd.ngay,
                                       TongTien = hd.sotien
                                   }).ToList();
@@ -335,13 +377,14 @@ namespace BAN_VE_CINE
                         c.TenKhachHang,
                         c.GioiTinh,
                         c.SoDienThoai,
-                        c.KhuVuc,
+                        c.KhuVuc, // Hiển thị tên khu vực
                         c.NgayDat?.ToString("dd/MM/yyyy HH:mm") ?? "N/A",  // Hiển thị Ngày và giờ
                         c.TongTien
                     );
                 }
             }
         }
+
 
         private void LoadGheDaBan()
         {
@@ -454,9 +497,17 @@ namespace BAN_VE_CINE
                         return;
                     }
 
+                    // Tìm khu vực dựa trên tên khu vực từ ComboBox
+                    var khuVuc = context.KHUVUC.FirstOrDefault(kv => kv.tenKV == cmbKhuVuc.Text);
+                    if (khuVuc == null)
+                    {
+                        MessageBox.Show("Khu vực không hợp lệ!", "Thông Báo", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                        return;
+                    }
+
                     // Cập nhật thông tin khách hàng
                     khachHang.ten = txtName.Text;
-                    khachHang.diachi = cmbKhuVuc.Text;
+                    khachHang.maKV = khuVuc.maKV; // Cập nhật mã khu vực dựa trên lựa chọn từ ComboBox
                     khachHang.gioitinh = optNam.Checked ? "Nam" : "Nữ";
 
                     // Lưu thay đổi vào cơ sở dữ liệu
@@ -474,6 +525,7 @@ namespace BAN_VE_CINE
                 MessageBox.Show("Có lỗi xảy ra: " + ex.Message, "Lỗi", MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
         }
+
 
         private void dgvKhachHang_CellClick(object sender, DataGridViewCellEventArgs e)
         {

@@ -12,22 +12,18 @@ namespace BAN_VE_CINE
     using System;
     using System.Collections.Generic;
     
-    public partial class KHACHHANG
+    public partial class KHUVUC
     {
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2214:DoNotCallOverridableMethodsInConstructors")]
-        public KHACHHANG()
+        public KHUVUC()
         {
-            this.HOADON = new HashSet<HOADON>();
+            this.KHACHHANG = new HashSet<KHACHHANG>();
         }
     
-        public int maKH { get; set; }
-        public string ten { get; set; }
-        public string sdt { get; set; }
-        public Nullable<int> maKV { get; set; }
-        public string gioitinh { get; set; }
+        public int maKV { get; set; }
+        public string tenKV { get; set; }
     
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
-        public virtual ICollection<HOADON> HOADON { get; set; }
-        public virtual KHUVUC KHUVUC { get; set; }
+        public virtual ICollection<KHACHHANG> KHACHHANG { get; set; }
     }
 }

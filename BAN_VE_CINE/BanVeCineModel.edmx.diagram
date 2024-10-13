@@ -5,12 +5,14 @@
     <!-- Diagram content (shape and connector positions) -->
     <edmx:Diagrams>
       <Diagram DiagramId="5e2d4bb422424d47b02ba04191dafe6d" Name="Diagram1">
-        <EntityTypeShape EntityType="BanVeCineModel.CTHD" Width="1.5" PointX="5.25" PointY="1" IsExpanded="true" />
-        <EntityTypeShape EntityType="BanVeCineModel.HOADON" Width="1.5" PointX="3" PointY="1" IsExpanded="true" />
-        <EntityTypeShape EntityType="BanVeCineModel.KHACHHANG" Width="1.5" PointX="0.75" PointY="1" IsExpanded="true" />
-        <EntityTypeShape EntityType="BanVeCineModel.sysdiagrams" Width="1.5" PointX="0.75" PointY="4.75" IsExpanded="true" />
-        <AssociationConnector Association="BanVeCineModel.FK__CTHD__maHD__3C69FB99" ManuallyRouted="false" />
-        <AssociationConnector Association="BanVeCineModel.FK__HOADON__maKH__398D8EEE" ManuallyRouted="false" />
+        <EntityTypeShape EntityType="BanVeCineModel.CTHD" Width="1.5" PointX="7.5" PointY="1.125" />
+        <EntityTypeShape EntityType="BanVeCineModel.HOADON" Width="1.5" PointX="5.25" PointY="1" />
+        <EntityTypeShape EntityType="BanVeCineModel.KHACHHANG" Width="1.5" PointX="3" PointY="1" />
+        <EntityTypeShape EntityType="BanVeCineModel.KHUVUC" Width="1.5" PointX="0.75" PointY="1.375" />
+        <EntityTypeShape EntityType="BanVeCineModel.sysdiagrams" Width="1.5" PointX="0.75" PointY="4.75" />
+        <AssociationConnector Association="BanVeCineModel.FK__CTHD__maHD__44FF419A" />
+        <AssociationConnector Association="BanVeCineModel.FK__HOADON__maKH__4222D4EF" />
+        <AssociationConnector Association="BanVeCineModel.FK__KHACHHANG__gioit__3F466844" />
       </Diagram>
     </edmx:Diagrams>
   </edmx:Designer>

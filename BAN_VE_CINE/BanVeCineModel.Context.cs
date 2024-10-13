@@ -28,6 +28,7 @@ namespace BAN_VE_CINE
         public virtual DbSet<CTHD> CTHD { get; set; }
         public virtual DbSet<HOADON> HOADON { get; set; }
         public virtual DbSet<KHACHHANG> KHACHHANG { get; set; }
+        public virtual DbSet<KHUVUC> KHUVUC { get; set; }
         public virtual DbSet<sysdiagrams> sysdiagrams { get; set; }
     }
 }
