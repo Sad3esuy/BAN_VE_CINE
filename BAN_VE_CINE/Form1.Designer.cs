@@ -76,6 +76,14 @@
             this.errorProvider4 = new System.Windows.Forms.ErrorProvider(this.components);
             this.btnXoa = new System.Windows.Forms.Button();
             this.btnSua = new System.Windows.Forms.Button();
+            this.menuStrip1 = new System.Windows.Forms.MenuStrip();
+            this.fIleToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.mởFileToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.tsmnXuatFile = new System.Windows.Forms.ToolStripMenuItem();
+            this.toolStripSeparator1 = new System.Windows.Forms.ToolStripSeparator();
+            this.thoátToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.editToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.helpToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.grbViTriGheNgoi.SuspendLayout();
             this.groupBox2.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.dgvKhachHang)).BeginInit();
@@ -83,6 +91,7 @@
             ((System.ComponentModel.ISupportInitialize)(this.errorProvider2)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.errorProvider3)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.errorProvider4)).BeginInit();
+            this.menuStrip1.SuspendLayout();
             this.SuspendLayout();
             // 
             // label1
@@ -90,7 +99,7 @@
             this.label1.AutoSize = true;
             this.label1.Font = new System.Drawing.Font("FZ-SG ZT Voltra", 13.8F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.label1.ForeColor = System.Drawing.SystemColors.MenuHighlight;
-            this.label1.Location = new System.Drawing.Point(164, 20);
+            this.label1.Location = new System.Drawing.Point(164, 47);
             this.label1.Name = "label1";
             this.label1.Size = new System.Drawing.Size(185, 31);
             this.label1.TabIndex = 0;
@@ -124,7 +133,7 @@
             this.label2.AutoSize = true;
             this.label2.Font = new System.Drawing.Font("FZ-SG ZT Voltra", 13.8F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.label2.ForeColor = System.Drawing.SystemColors.MenuHighlight;
-            this.label2.Location = new System.Drawing.Point(748, 20);
+            this.label2.Location = new System.Drawing.Point(748, 47);
             this.label2.Name = "label2";
             this.label2.Size = new System.Drawing.Size(469, 31);
             this.label2.TabIndex = 0;
@@ -153,7 +162,7 @@
             this.grbViTriGheNgoi.Controls.Add(this.button5);
             this.grbViTriGheNgoi.Controls.Add(this.button2);
             this.grbViTriGheNgoi.Controls.Add(this.button1);
-            this.grbViTriGheNgoi.Location = new System.Drawing.Point(37, 68);
+            this.grbViTriGheNgoi.Location = new System.Drawing.Point(37, 95);
             this.grbViTriGheNgoi.Name = "grbViTriGheNgoi";
             this.grbViTriGheNgoi.Size = new System.Drawing.Size(437, 384);
             this.grbViTriGheNgoi.TabIndex = 3;
@@ -402,7 +411,7 @@
             this.groupBox2.Controls.Add(this.label4);
             this.groupBox2.Controls.Add(this.txtSDT);
             this.groupBox2.Controls.Add(this.txtName);
-            this.groupBox2.Location = new System.Drawing.Point(530, 68);
+            this.groupBox2.Location = new System.Drawing.Point(530, 95);
             this.groupBox2.Name = "groupBox2";
             this.groupBox2.Size = new System.Drawing.Size(857, 465);
             this.groupBox2.TabIndex = 4;
@@ -509,7 +518,7 @@
             // 
             // txtTongTien
             // 
-            this.txtTongTien.Location = new System.Drawing.Point(331, 520);
+            this.txtTongTien.Location = new System.Drawing.Point(331, 547);
             this.txtTongTien.Name = "txtTongTien";
             this.txtTongTien.Size = new System.Drawing.Size(143, 22);
             this.txtTongTien.TabIndex = 6;
@@ -517,7 +526,7 @@
             // label3
             // 
             this.label3.AutoSize = true;
-            this.label3.Location = new System.Drawing.Point(252, 523);
+            this.label3.Location = new System.Drawing.Point(252, 550);
             this.label3.Name = "label3";
             this.label3.Size = new System.Drawing.Size(76, 16);
             this.label3.TabIndex = 7;
@@ -525,7 +534,7 @@
             // 
             // btnChon
             // 
-            this.btnChon.Location = new System.Drawing.Point(37, 470);
+            this.btnChon.Location = new System.Drawing.Point(37, 497);
             this.btnChon.Name = "btnChon";
             this.btnChon.Size = new System.Drawing.Size(85, 34);
             this.btnChon.TabIndex = 8;
@@ -535,7 +544,7 @@
             // 
             // btnHuy
             // 
-            this.btnHuy.Location = new System.Drawing.Point(130, 470);
+            this.btnHuy.Location = new System.Drawing.Point(130, 497);
             this.btnHuy.Name = "btnHuy";
             this.btnHuy.Size = new System.Drawing.Size(85, 34);
             this.btnHuy.TabIndex = 8;
@@ -545,7 +554,7 @@
             // 
             // btnThoat
             // 
-            this.btnThoat.Location = new System.Drawing.Point(1296, 23);
+            this.btnThoat.Location = new System.Drawing.Point(1296, 50);
             this.btnThoat.Name = "btnThoat";
             this.btnThoat.Size = new System.Drawing.Size(85, 34);
             this.btnThoat.TabIndex = 8;
@@ -571,7 +580,7 @@
             // 
             // btnXoa
             // 
-            this.btnXoa.Location = new System.Drawing.Point(389, 470);
+            this.btnXoa.Location = new System.Drawing.Point(389, 497);
             this.btnXoa.Name = "btnXoa";
             this.btnXoa.Size = new System.Drawing.Size(85, 34);
             this.btnXoa.TabIndex = 9;
@@ -581,13 +590,74 @@
             // 
             // btnSua
             // 
-            this.btnSua.Location = new System.Drawing.Point(296, 470);
+            this.btnSua.Location = new System.Drawing.Point(296, 497);
             this.btnSua.Name = "btnSua";
             this.btnSua.Size = new System.Drawing.Size(85, 34);
             this.btnSua.TabIndex = 10;
             this.btnSua.Text = "Sửa";
             this.btnSua.UseVisualStyleBackColor = true;
             this.btnSua.Click += new System.EventHandler(this.btnSua_Click);
+            // 
+            // menuStrip1
+            // 
+            this.menuStrip1.ImageScalingSize = new System.Drawing.Size(20, 20);
+            this.menuStrip1.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.fIleToolStripMenuItem,
+            this.editToolStripMenuItem,
+            this.helpToolStripMenuItem});
+            this.menuStrip1.Location = new System.Drawing.Point(0, 0);
+            this.menuStrip1.Name = "menuStrip1";
+            this.menuStrip1.Size = new System.Drawing.Size(1430, 29);
+            this.menuStrip1.TabIndex = 11;
+            this.menuStrip1.Text = "menuStrip1";
+            // 
+            // fIleToolStripMenuItem
+            // 
+            this.fIleToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.mởFileToolStripMenuItem,
+            this.tsmnXuatFile,
+            this.toolStripSeparator1,
+            this.thoátToolStripMenuItem});
+            this.fIleToolStripMenuItem.Name = "fIleToolStripMenuItem";
+            this.fIleToolStripMenuItem.Size = new System.Drawing.Size(48, 25);
+            this.fIleToolStripMenuItem.Text = "File";
+            // 
+            // mởFileToolStripMenuItem
+            // 
+            this.mởFileToolStripMenuItem.Name = "mởFileToolStripMenuItem";
+            this.mởFileToolStripMenuItem.ShortcutKeys = ((System.Windows.Forms.Keys)((System.Windows.Forms.Keys.Control | System.Windows.Forms.Keys.O)));
+            this.mởFileToolStripMenuItem.Size = new System.Drawing.Size(224, 26);
+            this.mởFileToolStripMenuItem.Text = "Mở file";
+            // 
+            // tsmnXuatFile
+            // 
+            this.tsmnXuatFile.Name = "tsmnXuatFile";
+            this.tsmnXuatFile.Size = new System.Drawing.Size(224, 26);
+            this.tsmnXuatFile.Text = "Xuất file";
+            this.tsmnXuatFile.Click += new System.EventHandler(this.tsmnXuatFile_Click);
+            // 
+            // toolStripSeparator1
+            // 
+            this.toolStripSeparator1.Name = "toolStripSeparator1";
+            this.toolStripSeparator1.Size = new System.Drawing.Size(221, 6);
+            // 
+            // thoátToolStripMenuItem
+            // 
+            this.thoátToolStripMenuItem.Name = "thoátToolStripMenuItem";
+            this.thoátToolStripMenuItem.Size = new System.Drawing.Size(224, 26);
+            this.thoátToolStripMenuItem.Text = "Thoát";
+            // 
+            // editToolStripMenuItem
+            // 
+            this.editToolStripMenuItem.Name = "editToolStripMenuItem";
+            this.editToolStripMenuItem.Size = new System.Drawing.Size(50, 25);
+            this.editToolStripMenuItem.Text = "Edit";
+            // 
+            // helpToolStripMenuItem
+            // 
+            this.helpToolStripMenuItem.Name = "helpToolStripMenuItem";
+            this.helpToolStripMenuItem.Size = new System.Drawing.Size(56, 25);
+            this.helpToolStripMenuItem.Text = "Help";
             // 
             // Form1
             // 
@@ -605,8 +675,10 @@
             this.Controls.Add(this.grbViTriGheNgoi);
             this.Controls.Add(this.label2);
             this.Controls.Add(this.label1);
+            this.Controls.Add(this.menuStrip1);
             this.Font = new System.Drawing.Font("Microsoft Sans Serif", 7.8F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(163)));
             this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
+            this.MainMenuStrip = this.menuStrip1;
             this.Name = "Form1";
             this.Text = "CHUONG TRINH BAN VE CINE";
             this.FormClosing += new System.Windows.Forms.FormClosingEventHandler(this.Form1_FormClosing);
@@ -619,6 +691,8 @@
             ((System.ComponentModel.ISupportInitialize)(this.errorProvider2)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.errorProvider3)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.errorProvider4)).EndInit();
+            this.menuStrip1.ResumeLayout(false);
+            this.menuStrip1.PerformLayout();
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -672,6 +746,14 @@
         private System.Windows.Forms.ErrorProvider errorProvider4;
         private System.Windows.Forms.Button btnXoa;
         private System.Windows.Forms.Button btnSua;
+        private System.Windows.Forms.MenuStrip menuStrip1;
+        private System.Windows.Forms.ToolStripMenuItem fIleToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem mởFileToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem tsmnXuatFile;
+        private System.Windows.Forms.ToolStripSeparator toolStripSeparator1;
+        private System.Windows.Forms.ToolStripMenuItem thoátToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem editToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem helpToolStripMenuItem;
     }
 }
 

@@ -5,6 +5,9 @@ using System.Globalization;
 using System.Linq;
 using System.Runtime.Remoting.Contexts;
 using System.Windows.Forms;
+using System.IO;
+using OfficeOpenXml;
+using Excel = Microsoft.Office.Interop.Excel;
 
 namespace BAN_VE_CINE
 {
@@ -46,13 +49,13 @@ namespace BAN_VE_CINE
             // Thêm cột Khu Vực
             dgvKhachHang.Columns.Add("KhuVuc", "Khu Vực");
 
+            // Thêm cột Ngày Đặt
             dgvKhachHang.Columns.Add("NgayDat", "Ngày Đặt");
-            dgvKhachHang.Columns["NgayDat"].DefaultCellStyle.Format = "dd/MM/yyyy";
+            dgvKhachHang.Columns["NgayDat"].DefaultCellStyle.Format = "dd/MM/yyyy HH:mm"; // Thêm giờ và phút
+
+            // Thêm cột Tổng Tiền
             dgvKhachHang.Columns.Add("TongTien", "Tổng Tiền");
-
-            // Đặt định dạng cho cột Tổng Tiền
             dgvKhachHang.Columns["TongTien"].DefaultCellStyle.Format = "N0"; // Định dạng số nguyên (20,000)
-
 
             using (BanVeCineEntities dbcontext = new BanVeCineEntities())
             {
@@ -73,7 +76,8 @@ namespace BAN_VE_CINE
 
                 foreach (var c in item.ToList())
                 {
-                    dgvKhachHang.Rows.Add(c.MaHoaDon, c.TenKhachHang, c.GioiTinh, c.SoDienThoai, c.KhuVuc, c.NgayDat, c.TongTien);
+                    dgvKhachHang.Rows.Add(c.MaHoaDon, c.TenKhachHang, c.GioiTinh, c.SoDienThoai, c.KhuVuc, c.NgayDat.HasValue ? c.NgayDat.Value.ToString("dd/MM/yyyy HH:mm") : "N/A", // Kiểm tra có giá trị không
+                                  string.Format(new System.Globalization.CultureInfo("vi-VN"), "{0:N0}", c.TongTien)); // Định dạng tổng tiền kiểu tiền Việt);
                 }
 
                 dgvKhachHang.AutoSizeColumnsMode = DataGridViewAutoSizeColumnsMode.Fill;
@@ -139,7 +143,7 @@ namespace BAN_VE_CINE
         {
             decimal tongTien = lstChonGhe.Where(item => item.BackColor == Color.LightBlue).Sum(item => TinhTienGhe(item));
 
-            txtTongTien.Text = tongTien == 0 ? "0 VNĐ" : tongTien.ToString("N2", new CultureInfo("vi-VN")) + " VNĐ";
+            txtTongTien.Text = tongTien == 0 ? "0 VNĐ" : tongTien.ToString("#,##0 VND");
         }
 
         private decimal TinhTienGhe(Button ghe)
@@ -181,16 +185,16 @@ namespace BAN_VE_CINE
                         }).ToList();
 
                         LuuThongTinDonHang(txtName.Text, txtSDT.Text, cmbKhuVuc.Text, gioiTinh, DateTime.Now, tongTien, ChiTietHD);
-                        txtTongTien.Text = tongTien.ToString("N2", new CultureInfo("vi-VN")) + " VNĐ";
+                        txtTongTien.Text = tongTien.ToString("#,##0 VND");
                         MessageBox.Show("Thêm Khách hàng thành công!", "Thông báo", MessageBoxButtons.OK);
                         LoadHoaDonData();
                         lstChonGhe.Clear();
                         ResetInput();
                     }
                 }
-                else 
+                else
                 {
-                        MessageBox.Show("Khách hàng đã tồn tại", "Thông báo", MessageBoxButtons.OK,MessageBoxIcon.Warning);
+                    MessageBox.Show("Khách hàng đã tồn tại", "Thông báo", MessageBoxButtons.OK, MessageBoxIcon.Warning);
                 }
             }
             catch (Exception ex)
@@ -270,22 +274,25 @@ namespace BAN_VE_CINE
             optNu.Checked = false;
             optNam.Checked = false;
             cmbKhuVuc.SelectedIndex = -1;
+            txtTongTien.Text = "0 VNĐ";
         }
+        private void Form1_FormClosing(object sender, FormClosingEventArgs e)
+        {
+            if (MessageBox.Show("Bạn có muốn thoát?", "Question", MessageBoxButtons.YesNo, MessageBoxIcon.Question) == DialogResult.No)
+            {
+                e.Cancel = true;
+            }
+        }
+
         private void btnThoat_Click(object sender, EventArgs e)
         {
-            if (MessageBox.Show("Bạn có muốn thoát?", "Lựa Chọn", MessageBoxButtons.YesNo, MessageBoxIcon.Question) == DialogResult.Yes)
+            DialogResult dr = MessageBox.Show("Bạn có muốn thoát?", "Question", MessageBoxButtons.YesNo, MessageBoxIcon.Question);
+            if (dr == DialogResult.Yes)
             {
                 this.Close();
             }
         }
 
-        private void Form1_FormClosing(object sender, FormClosingEventArgs e)
-        {
-            if (MessageBox.Show("Bạn có muốn thoát?", "Lựa Chọn", MessageBoxButtons.YesNo, MessageBoxIcon.Question) == DialogResult.No)
-            {
-                e.Cancel = true;
-            }
-        }
 
         private void LuuThongTinDonHang(string tenKH, string sdt, string tenKV, string gioitinh, DateTime ngayMua, decimal tongTien, List<CTHD> CTHDList)
         {
@@ -378,8 +385,8 @@ namespace BAN_VE_CINE
                         c.GioiTinh,
                         c.SoDienThoai,
                         c.KhuVuc, // Hiển thị tên khu vực
-                        c.NgayDat?.ToString("dd/MM/yyyy HH:mm") ?? "N/A",  // Hiển thị Ngày và giờ
-                        c.TongTien
+                        c.NgayDat.HasValue ? c.NgayDat.Value.ToString("dd/MM/yyyy HH:mm") : "N/A",  // Kiểm tra có giá trị không
+                        string.Format(new System.Globalization.CultureInfo("vi-VN"), "{0:C}", c.TongTien) // Định dạng tổng tiền kiểu tiền Việt
                     );
                 }
             }
@@ -392,7 +399,7 @@ namespace BAN_VE_CINE
             {
                 // Lấy danh sách ghế đã bán từ CTHD
                 var gheDaBan = (from ghe in context.CTHD
-                               select ghe.vitrighe).ToList();
+                                select ghe.vitrighe).ToList();
 
                 // Duyệt qua danh sách ghế đã bán và cập nhật màu sắc cho các nút ghế
                 foreach (Button btnGhe in grbViTriGheNgoi.Controls.OfType<Button>())
@@ -554,6 +561,190 @@ namespace BAN_VE_CINE
             }
         }
 
+        // viết hàm để xuất data trong dgvKhachHang thành file excel
+        private void ExportFile(string path)
+        {
+            try
+            {
+                // Tạo các đối tượng Excel
+                Excel.Application oExcel = new Excel.Application();
+                Excel.Workbooks oBooks;
+                Excel.Sheets oSheets;
+                Excel.Workbook oBook;
+                Excel.Worksheet oSheet;
 
+                // Tạo mới một Excel WorkBook 
+                oExcel.Visible = false;
+                oExcel.DisplayAlerts = false;
+                oExcel.Application.SheetsInNewWorkbook = 1;
+                oBooks = oExcel.Workbooks;
+                oBook = (Excel.Workbook)(oExcel.Workbooks.Add(Type.Missing));
+                oSheets = oBook.Worksheets;
+                oSheet = (Excel.Worksheet)oSheets.get_Item(1);
+
+                // Đặt tên sheet
+                oSheet.Name = "Danh sách hóa đơn";
+
+                // Tạo phần Tiêu đề
+                Excel.Range head = oSheet.get_Range("A1", "G1");
+                head.MergeCells = true;
+                head.Value2 = "Danh Sách Hóa Đơn";
+                head.Font.Bold = true;
+                head.Font.Name = "Times New Roman";
+                head.Font.Size = 20;
+                head.HorizontalAlignment = Excel.XlHAlign.xlHAlignCenter;
+
+                // Tạo tiêu đề cột từ dgvKhachHang
+                for (int i = 0; i < dgvKhachHang.Columns.Count; i++)
+                {
+                    Excel.Range columnHeader = oSheet.Cells[3, i + 1];  // Dòng 3 là dòng tiêu đề
+                    columnHeader.Value2 = dgvKhachHang.Columns[i].HeaderText;  // Lấy tiêu đề từ dgvKhachHang
+                    columnHeader.Font.Bold = true;
+                    columnHeader.Borders.LineStyle = Excel.Constants.xlSolid;
+                    columnHeader.Interior.ColorIndex = 6;  // Màu nền cho tiêu đề
+                    columnHeader.HorizontalAlignment = Excel.XlHAlign.xlHAlignCenter;
+                }
+
+                // Chuyển dữ liệu từ dgvKhachHang sang Excel
+                for (int i = 0; i < dgvKhachHang.Rows.Count; i++)
+                {
+                    for (int j = 0; j < dgvKhachHang.Columns.Count; j++)
+                    {
+                        oSheet.Cells[i + 4, j + 1] = dgvKhachHang.Rows[i].Cells[j].Value;  // Dữ liệu bắt đầu từ dòng 4
+                    }
+                }
+
+                // Kẻ viền cho dữ liệu
+                int rowStart = 4;
+                int rowEnd = rowStart + dgvKhachHang.Rows.Count - 1;
+                Excel.Range c1 = (Excel.Range)oSheet.Cells[rowStart, 1];
+                Excel.Range c2 = (Excel.Range)oSheet.Cells[rowEnd, dgvKhachHang.Columns.Count];
+                Excel.Range range = oSheet.get_Range(c1, c2);
+
+                range.Borders.LineStyle = Excel.Constants.xlSolid;
+                range.HorizontalAlignment = Excel.XlHAlign.xlHAlignCenter;
+
+                // Định dạng cột "Tổng Tiền" theo tiền Việt Nam
+                Excel.Range totalColumn = oSheet.get_Range("G4", $"G{dgvKhachHang.Rows.Count + 3}");  // Dòng 4 là bắt đầu dữ liệu
+                totalColumn.NumberFormat = "#,##0 \"VND\"";
+
+                // Lưu file Excel
+                oExcel.ActiveWorkbook.SaveCopyAs(path);
+                oExcel.ActiveWorkbook.Saved = true;
+                oBook.Close();
+                //oExcel.Quit();
+
+                // Giải phóng tài nguyên
+                System.Runtime.InteropServices.Marshal.ReleaseComObject(oSheet);
+                System.Runtime.InteropServices.Marshal.ReleaseComObject(oBook);
+                System.Runtime.InteropServices.Marshal.ReleaseComObject(oExcel);
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show("Có lỗi xảy ra: " + ex.Message, "Lỗi", MessageBoxButtons.OK, MessageBoxIcon.Error);
+            }
+        }
+        private void ExportExCel(string path)
+        {
+            try
+            {
+                // Tạo các đối tượng Excel
+                Excel.Application oExcel = new Excel.Application();
+                Excel.Workbooks oBooks;
+                Excel.Sheets oSheets;
+                Excel.Workbook oBook;
+                Excel.Worksheet oSheet;
+
+                // Tạo mới một Excel WorkBook 
+                oExcel.Visible = true;
+                oExcel.DisplayAlerts = false;
+                oExcel.Application.SheetsInNewWorkbook = 1;
+                oBooks = oExcel.Workbooks;
+                oBook = (Excel.Workbook)(oExcel.Workbooks.Add(Type.Missing));
+                oSheets = oBook.Worksheets;
+                oSheet = (Excel.Worksheet)oSheets.get_Item(1);
+
+                // Đặt tên sheet
+                oSheet.Name = "DANH SÁCH KHÁCH HÀNG";
+
+                // Tạo phần Tiêu đề
+                Excel.Range head = oSheet.get_Range("A1", "G1");
+                head.MergeCells = true;
+                head.Value2 = "DANH SÁCH KHÁCH HÀNG";
+                head.Font.Bold = true;
+                head.Font.Name = "Times New Roman";
+                head.Font.Size = 20;
+                head.HorizontalAlignment = Excel.XlHAlign.xlHAlignCenter;
+
+                // Tạo tiêu đề cột từ dgvKhachHang
+                for (int i = 0; i < dgvKhachHang.Columns.Count; i++)
+                {
+                    Excel.Range columnHeader = oSheet.Cells[3, i + 1];  // Dòng 3 là dòng tiêu đề
+                    columnHeader.Value2 = dgvKhachHang.Columns[i].HeaderText;  // Lấy tiêu đề từ dgvKhachHang
+                    columnHeader.Font.Bold = true;
+                    columnHeader.Borders.LineStyle = Excel.Constants.xlSolid;
+                    columnHeader.Interior.ColorIndex = 6;  // Màu nền cho tiêu đề
+                    columnHeader.HorizontalAlignment = Excel.XlHAlign.xlHAlignCenter;
+                }
+
+                // Chuyển dữ liệu từ dgvKhachHang sang Excel
+                for (int i = 0; i < dgvKhachHang.Rows.Count; i++)
+                {
+                    for (int j = 0; j < dgvKhachHang.Columns.Count; j++)
+                    {
+                        oSheet.Cells[i + 4, j + 1] = dgvKhachHang.Rows[i].Cells[j].Value;  // Dữ liệu bắt đầu từ dòng 4
+                    }
+                }
+
+                // Kẻ viền cho dữ liệu
+                int rowStart = 4;
+                int rowEnd = rowStart + dgvKhachHang.Rows.Count - 1;
+                Excel.Range c1 = (Excel.Range)oSheet.Cells[rowStart, 1];
+                Excel.Range c2 = (Excel.Range)oSheet.Cells[rowEnd, dgvKhachHang.Columns.Count];
+                Excel.Range range = oSheet.get_Range(c1, c2);
+
+                range.Borders.LineStyle = Excel.Constants.xlSolid;
+                range.HorizontalAlignment = Excel.XlHAlign.xlHAlignCenter;
+
+                // Lưu file Excel
+                oExcel.Columns.AutoFit();
+                //oExcel.ActiveWorkbook.SaveCopyAs(path);
+                //oExcel.ActiveWorkbook.Saved = true;
+                oBook.SaveAs(path);
+                //oBook.Close();
+                oExcel.Quit();
+
+                // Giải phóng tài nguyên
+                System.Runtime.InteropServices.Marshal.ReleaseComObject(oSheet);
+                System.Runtime.InteropServices.Marshal.ReleaseComObject(oBook);
+                System.Runtime.InteropServices.Marshal.ReleaseComObject(oExcel);
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show("Có lỗi xảy ra: " + ex.Message, "Lỗi", MessageBoxButtons.OK, MessageBoxIcon.Error);
+            }
+        }
+
+
+        private void tsmnXuatFile_Click(object sender, EventArgs e)
+        {
+            SaveFileDialog saveFileDialog = new SaveFileDialog();
+            saveFileDialog.Title = "Export Excel";
+            saveFileDialog.Filter = "Excel files (*.xlsx)|*.xlsx|All files (*.*)|*.*";
+            if (saveFileDialog.ShowDialog() == DialogResult.OK)
+            {
+                try
+                {
+                    ExportExCel(saveFileDialog.FileName);
+                    MessageBox.Show("Xuất File Thành Công!","Thông báo",MessageBoxButtons.OK);
+                }
+                catch (Exception ex)
+                {
+
+                    MessageBox.Show("Xuất File Không Thành Công!!\n",ex.Message);
+                }
+                
+            }
+        }
     }
 }
