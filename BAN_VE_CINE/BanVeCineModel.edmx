@@ -20,7 +20,7 @@
           </Key>
           <Property Name="maHD" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
           <Property Name="maKH" Type="int" />
-          <Property Name="ngay" Type="date" />
+          <Property Name="ngay" Type="datetime" />
           <Property Name="sotien" Type="decimal" Precision="18" Scale="2" />
         </EntityType>
         <EntityType Name="KHACHHANG">
@@ -50,7 +50,7 @@
           <Property Name="version" Type="int" />
           <Property Name="definition" Type="varbinary(max)" />
         </EntityType>
-        <Association Name="FK__CTHD__maHD__44FF419A">
+        <Association Name="FK__CTHD__maHD__4222D4EF">
           <End Role="HOADON" Type="Self.HOADON" Multiplicity="0..1" />
           <End Role="CTHD" Type="Self.CTHD" Multiplicity="*" />
           <ReferentialConstraint>
@@ -62,7 +62,7 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
-        <Association Name="FK__HOADON__maKH__4222D4EF">
+        <Association Name="FK__HOADON__maKH__3F466844">
           <End Role="KHACHHANG" Type="Self.KHACHHANG" Multiplicity="0..1" />
           <End Role="HOADON" Type="Self.HOADON" Multiplicity="*" />
           <ReferentialConstraint>
@@ -74,7 +74,7 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
-        <Association Name="FK__KHACHHANG__gioit__3F466844">
+        <Association Name="FK__KHACHHANG__gioit__3C69FB99">
           <End Role="KHUVUC" Type="Self.KHUVUC" Multiplicity="0..1" />
           <End Role="KHACHHANG" Type="Self.KHACHHANG" Multiplicity="*" />
           <ReferentialConstraint>
@@ -92,15 +92,15 @@
           <EntitySet Name="KHACHHANG" EntityType="Self.KHACHHANG" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="KHUVUC" EntityType="Self.KHUVUC" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="sysdiagrams" EntityType="Self.sysdiagrams" Schema="dbo" store:Type="Tables" />
-          <AssociationSet Name="FK__CTHD__maHD__44FF419A" Association="Self.FK__CTHD__maHD__44FF419A">
+          <AssociationSet Name="FK__CTHD__maHD__4222D4EF" Association="Self.FK__CTHD__maHD__4222D4EF">
             <End Role="HOADON" EntitySet="HOADON" />
             <End Role="CTHD" EntitySet="CTHD" />
           </AssociationSet>
-          <AssociationSet Name="FK__HOADON__maKH__4222D4EF" Association="Self.FK__HOADON__maKH__4222D4EF">
+          <AssociationSet Name="FK__HOADON__maKH__3F466844" Association="Self.FK__HOADON__maKH__3F466844">
             <End Role="KHACHHANG" EntitySet="KHACHHANG" />
             <End Role="HOADON" EntitySet="HOADON" />
           </AssociationSet>
-          <AssociationSet Name="FK__KHACHHANG__gioit__3F466844" Association="Self.FK__KHACHHANG__gioit__3F466844">
+          <AssociationSet Name="FK__KHACHHANG__gioit__3C69FB99" Association="Self.FK__KHACHHANG__gioit__3C69FB99">
             <End Role="KHUVUC" EntitySet="KHUVUC" />
             <End Role="KHACHHANG" EntitySet="KHACHHANG" />
           </AssociationSet>
@@ -115,15 +115,15 @@
           <EntitySet Name="KHACHHANG" EntityType="BanVeCineModel.KHACHHANG" />
           <EntitySet Name="KHUVUC" EntityType="BanVeCineModel.KHUVUC" />
           <EntitySet Name="sysdiagrams" EntityType="BanVeCineModel.sysdiagrams" />
-          <AssociationSet Name="FK__CTHD__maHD__44FF419A" Association="BanVeCineModel.FK__CTHD__maHD__44FF419A">
+          <AssociationSet Name="FK__CTHD__maHD__4222D4EF" Association="BanVeCineModel.FK__CTHD__maHD__4222D4EF">
             <End Role="HOADON" EntitySet="HOADON" />
             <End Role="CTHD" EntitySet="CTHD" />
           </AssociationSet>
-          <AssociationSet Name="FK__HOADON__maKH__4222D4EF" Association="BanVeCineModel.FK__HOADON__maKH__4222D4EF">
+          <AssociationSet Name="FK__HOADON__maKH__3F466844" Association="BanVeCineModel.FK__HOADON__maKH__3F466844">
             <End Role="KHACHHANG" EntitySet="KHACHHANG" />
             <End Role="HOADON" EntitySet="HOADON" />
           </AssociationSet>
-          <AssociationSet Name="FK__KHACHHANG__gioit__3F466844" Association="BanVeCineModel.FK__KHACHHANG__gioit__3F466844">
+          <AssociationSet Name="FK__KHACHHANG__gioit__3C69FB99" Association="BanVeCineModel.FK__KHACHHANG__gioit__3C69FB99">
             <End Role="KHUVUC" EntitySet="KHUVUC" />
             <End Role="KHACHHANG" EntitySet="KHACHHANG" />
           </AssociationSet>
@@ -136,7 +136,7 @@
           <Property Name="maHD" Type="Int32" />
           <Property Name="vitrighe" Type="String" MaxLength="10" FixedLength="false" Unicode="true" />
           <Property Name="sotien" Type="Decimal" Precision="18" Scale="2" />
-          <NavigationProperty Name="HOADON" Relationship="BanVeCineModel.FK__CTHD__maHD__44FF419A" FromRole="CTHD" ToRole="HOADON" />
+          <NavigationProperty Name="HOADON" Relationship="BanVeCineModel.FK__CTHD__maHD__4222D4EF" FromRole="CTHD" ToRole="HOADON" />
         </EntityType>
         <EntityType Name="HOADON">
           <Key>
@@ -144,10 +144,10 @@
           </Key>
           <Property Name="maHD" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
           <Property Name="maKH" Type="Int32" />
-          <Property Name="ngay" Type="DateTime" Precision="0" />
+          <Property Name="ngay" Type="DateTime" Precision="3" />
           <Property Name="sotien" Type="Decimal" Precision="18" Scale="2" />
-          <NavigationProperty Name="CTHD" Relationship="BanVeCineModel.FK__CTHD__maHD__44FF419A" FromRole="HOADON" ToRole="CTHD" />
-          <NavigationProperty Name="KHACHHANG" Relationship="BanVeCineModel.FK__HOADON__maKH__4222D4EF" FromRole="HOADON" ToRole="KHACHHANG" />
+          <NavigationProperty Name="CTHD" Relationship="BanVeCineModel.FK__CTHD__maHD__4222D4EF" FromRole="HOADON" ToRole="CTHD" />
+          <NavigationProperty Name="KHACHHANG" Relationship="BanVeCineModel.FK__HOADON__maKH__3F466844" FromRole="HOADON" ToRole="KHACHHANG" />
         </EntityType>
         <EntityType Name="KHACHHANG">
           <Key>
@@ -158,8 +158,8 @@
           <Property Name="sdt" Type="String" MaxLength="15" FixedLength="false" Unicode="false" />
           <Property Name="maKV" Type="Int32" />
           <Property Name="gioitinh" Type="String" MaxLength="10" FixedLength="false" Unicode="true" />
-          <NavigationProperty Name="HOADON" Relationship="BanVeCineModel.FK__HOADON__maKH__4222D4EF" FromRole="KHACHHANG" ToRole="HOADON" />
-          <NavigationProperty Name="KHUVUC" Relationship="BanVeCineModel.FK__KHACHHANG__gioit__3F466844" FromRole="KHACHHANG" ToRole="KHUVUC" />
+          <NavigationProperty Name="HOADON" Relationship="BanVeCineModel.FK__HOADON__maKH__3F466844" FromRole="KHACHHANG" ToRole="HOADON" />
+          <NavigationProperty Name="KHUVUC" Relationship="BanVeCineModel.FK__KHACHHANG__gioit__3C69FB99" FromRole="KHACHHANG" ToRole="KHUVUC" />
         </EntityType>
         <EntityType Name="KHUVUC">
           <Key>
@@ -167,7 +167,7 @@
           </Key>
           <Property Name="maKV" Type="Int32" Nullable="false" />
           <Property Name="tenKV" Type="String" MaxLength="255" FixedLength="false" Unicode="true" />
-          <NavigationProperty Name="KHACHHANG" Relationship="BanVeCineModel.FK__KHACHHANG__gioit__3F466844" FromRole="KHUVUC" ToRole="KHACHHANG" />
+          <NavigationProperty Name="KHACHHANG" Relationship="BanVeCineModel.FK__KHACHHANG__gioit__3C69FB99" FromRole="KHUVUC" ToRole="KHACHHANG" />
         </EntityType>
         <EntityType Name="sysdiagrams">
           <Key>
@@ -179,7 +179,7 @@
           <Property Name="version" Type="Int32" />
           <Property Name="definition" Type="Binary" MaxLength="Max" FixedLength="false" />
         </EntityType>
-        <Association Name="FK__CTHD__maHD__44FF419A">
+        <Association Name="FK__CTHD__maHD__4222D4EF">
           <End Type="BanVeCineModel.HOADON" Role="HOADON" Multiplicity="0..1" />
           <End Type="BanVeCineModel.CTHD" Role="CTHD" Multiplicity="*" />
           <ReferentialConstraint>
@@ -191,7 +191,7 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
-        <Association Name="FK__HOADON__maKH__4222D4EF">
+        <Association Name="FK__HOADON__maKH__3F466844">
           <End Type="BanVeCineModel.KHACHHANG" Role="KHACHHANG" Multiplicity="0..1" />
           <End Type="BanVeCineModel.HOADON" Role="HOADON" Multiplicity="*" />
           <ReferentialConstraint>
@@ -203,7 +203,7 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
-        <Association Name="FK__KHACHHANG__gioit__3F466844">
+        <Association Name="FK__KHACHHANG__gioit__3C69FB99">
           <End Type="BanVeCineModel.KHUVUC" Role="KHUVUC" Multiplicity="0..1" />
           <End Type="BanVeCineModel.KHACHHANG" Role="KHACHHANG" Multiplicity="*" />
           <ReferentialConstraint>
@@ -215,7 +215,7 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
-      </Schema>
+        </Schema>
     </edmx:ConceptualModels>
     <!-- C-S mapping content -->
     <edmx:Mappings>
