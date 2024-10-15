@@ -23,7 +23,7 @@ namespace BAN_VE_CINE
         public int maKH { get; set; }
         public string ten { get; set; }
         public string sdt { get; set; }
-        public Nullable<int> maKV { get; set; }
+        public string maKV { get; set; }
         public string gioitinh { get; set; }
     
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]

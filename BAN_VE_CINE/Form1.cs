@@ -8,6 +8,7 @@ using System.Windows.Forms;
 using System.IO;
 using OfficeOpenXml;
 using Excel = Microsoft.Office.Interop.Excel;
+using System.Data.Entity;
 
 namespace BAN_VE_CINE
 {
@@ -18,6 +19,10 @@ namespace BAN_VE_CINE
         public Form1()
         {
             InitializeComponent();
+            // Set TabIndex
+            txtName.TabIndex = 0;    // Focus sẽ chuyển vào đây đầu tiên
+            txtSDT.TabIndex = 1;   // Focus sẽ chuyển vào đây khi nhấn Tab từ txtMaKV
+            cmbKhuVuc.TabIndex = 2;    // Focus sẽ chuyển vào đây khi nhấn Tab từ txtTenKV
         }
 
         public void SetGridViewStyle(DataGridView dgview)
@@ -283,16 +288,6 @@ namespace BAN_VE_CINE
                 e.Cancel = true;
             }
         }
-
-        private void btnThoat_Click(object sender, EventArgs e)
-        {
-            DialogResult dr = MessageBox.Show("Bạn có muốn thoát?", "Question", MessageBoxButtons.YesNo, MessageBoxIcon.Question);
-            if (dr == DialogResult.Yes)
-            {
-                this.Close();
-            }
-        }
-
 
         private void LuuThongTinDonHang(string tenKH, string sdt, string tenKV, string gioitinh, DateTime ngayMua, decimal tongTien, List<CTHD> CTHDList)
         {
@@ -744,6 +739,43 @@ namespace BAN_VE_CINE
                     MessageBox.Show("Xuất File Không Thành Công!!\n",ex.Message);
                 }
                 
+            }
+        }
+
+        private void btnThemKhuVuc_Click(object sender, EventArgs e)
+        {
+            FrmQuanLyKhuVuc form2 = new FrmQuanLyKhuVuc();
+            form2.FormClosed += new FormClosedEventHandler(form2_FormClosed); 
+            form2.ShowDialog();
+        }
+
+        private void form2_FormClosed(object sender, FormClosedEventArgs e)
+        {
+            BanVeCineEntities dbcontext = new BanVeCineEntities();
+            List<KHUVUC> listKhuVuc = dbcontext.KHUVUC.ToList(); //lấy các khuc vuc
+            FillKhuVucCombobox(listKhuVuc);
+            cmbKhuVuc.SelectedIndex = -1;
+        }
+
+        private void txtName_KeyDown(object sender, KeyEventArgs e)
+        {
+            // Kiểm tra nếu phím Tab được nhấn
+            if (e.KeyCode == Keys.Tab)
+            {
+                // Chuyển focus sang TextBox tiếp theo (txtTenKV)
+                txtSDT.Focus();
+                e.SuppressKeyPress = true; // Ngăn chặn âm thanh hệ thống khi nhấn Tab
+            }
+        }
+
+        private void txtSDT_KeyDown(object sender, KeyEventArgs e)
+        {
+            // Kiểm tra nếu phím Tab được nhấn
+            if (e.KeyCode == Keys.Tab)
+            {
+                // Bạn có thể chuyển focus sang control tiếp theo hoặc thực hiện hành động khác
+                cmbKhuVuc.Focus(); // Ví dụ chuyển focus sang nút Thêm
+                e.SuppressKeyPress = true; // Ngăn chặn âm thanh hệ thống khi nhấn Tab
             }
         }
     }

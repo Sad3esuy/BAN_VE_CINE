@@ -69,7 +69,6 @@
             this.label3 = new System.Windows.Forms.Label();
             this.btnChon = new System.Windows.Forms.Button();
             this.btnHuy = new System.Windows.Forms.Button();
-            this.btnThoat = new System.Windows.Forms.Button();
             this.errorProvider1 = new System.Windows.Forms.ErrorProvider(this.components);
             this.errorProvider2 = new System.Windows.Forms.ErrorProvider(this.components);
             this.errorProvider3 = new System.Windows.Forms.ErrorProvider(this.components);
@@ -427,6 +426,7 @@
             this.btnThemKhuVuc.Size = new System.Drawing.Size(26, 24);
             this.btnThemKhuVuc.TabIndex = 10;
             this.btnThemKhuVuc.UseVisualStyleBackColor = true;
+            this.btnThemKhuVuc.Click += new System.EventHandler(this.btnThemKhuVuc_Click);
             // 
             // dgvKhachHang
             // 
@@ -508,6 +508,7 @@
             this.txtSDT.Name = "txtSDT";
             this.txtSDT.Size = new System.Drawing.Size(171, 22);
             this.txtSDT.TabIndex = 6;
+            this.txtSDT.KeyDown += new System.Windows.Forms.KeyEventHandler(this.txtSDT_KeyDown);
             // 
             // txtName
             // 
@@ -515,6 +516,7 @@
             this.txtName.Name = "txtName";
             this.txtName.Size = new System.Drawing.Size(216, 22);
             this.txtName.TabIndex = 6;
+            this.txtName.KeyDown += new System.Windows.Forms.KeyEventHandler(this.txtName_KeyDown);
             // 
             // txtTongTien
             // 
@@ -551,16 +553,6 @@
             this.btnHuy.Text = "Hủy bỏ";
             this.btnHuy.UseVisualStyleBackColor = true;
             this.btnHuy.Click += new System.EventHandler(this.btnHuy_Click);
-            // 
-            // btnThoat
-            // 
-            this.btnThoat.Location = new System.Drawing.Point(1296, 50);
-            this.btnThoat.Name = "btnThoat";
-            this.btnThoat.Size = new System.Drawing.Size(85, 34);
-            this.btnThoat.TabIndex = 8;
-            this.btnThoat.Text = "Thoát";
-            this.btnThoat.UseVisualStyleBackColor = true;
-            this.btnThoat.Click += new System.EventHandler(this.btnThoat_Click);
             // 
             // errorProvider1
             // 
@@ -626,25 +618,25 @@
             // 
             this.mởFileToolStripMenuItem.Name = "mởFileToolStripMenuItem";
             this.mởFileToolStripMenuItem.ShortcutKeys = ((System.Windows.Forms.Keys)((System.Windows.Forms.Keys.Control | System.Windows.Forms.Keys.O)));
-            this.mởFileToolStripMenuItem.Size = new System.Drawing.Size(224, 26);
+            this.mởFileToolStripMenuItem.Size = new System.Drawing.Size(201, 26);
             this.mởFileToolStripMenuItem.Text = "Mở file";
             // 
             // tsmnXuatFile
             // 
             this.tsmnXuatFile.Name = "tsmnXuatFile";
-            this.tsmnXuatFile.Size = new System.Drawing.Size(224, 26);
-            this.tsmnXuatFile.Text = "Xuất file";
+            this.tsmnXuatFile.Size = new System.Drawing.Size(201, 26);
+            this.tsmnXuatFile.Text = "Thống Kê";
             this.tsmnXuatFile.Click += new System.EventHandler(this.tsmnXuatFile_Click);
             // 
             // toolStripSeparator1
             // 
             this.toolStripSeparator1.Name = "toolStripSeparator1";
-            this.toolStripSeparator1.Size = new System.Drawing.Size(221, 6);
+            this.toolStripSeparator1.Size = new System.Drawing.Size(198, 6);
             // 
             // thoátToolStripMenuItem
             // 
             this.thoátToolStripMenuItem.Name = "thoátToolStripMenuItem";
-            this.thoátToolStripMenuItem.Size = new System.Drawing.Size(224, 26);
+            this.thoátToolStripMenuItem.Size = new System.Drawing.Size(201, 26);
             this.thoátToolStripMenuItem.Text = "Thoát";
             // 
             // editToolStripMenuItem
@@ -667,7 +659,6 @@
             this.Controls.Add(this.btnSua);
             this.Controls.Add(this.btnXoa);
             this.Controls.Add(this.btnHuy);
-            this.Controls.Add(this.btnThoat);
             this.Controls.Add(this.btnChon);
             this.Controls.Add(this.label3);
             this.Controls.Add(this.txtTongTien);
@@ -738,7 +729,6 @@
         private System.Windows.Forms.ComboBox cmbKhuVuc;
         private System.Windows.Forms.Label label7;
         private System.Windows.Forms.Button btnHuy;
-        private System.Windows.Forms.Button btnThoat;
         private System.Windows.Forms.Button btnThemKhuVuc;
         private System.Windows.Forms.ErrorProvider errorProvider1;
         private System.Windows.Forms.ErrorProvider errorProvider2;
