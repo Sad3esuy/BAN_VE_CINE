@@ -660,12 +660,12 @@ namespace BAN_VE_CINE
                 oSheet = (Excel.Worksheet)oSheets.get_Item(1);
 
                 // Đặt tên sheet
-                oSheet.Name = "DANH SÁCH KHÁCH HÀNG";
+                oSheet.Name = "DANH SÁCH HOÁ ĐƠN KHÁCH HÀNG";
 
                 // Tạo phần Tiêu đề
                 Excel.Range head = oSheet.get_Range("A1", "G1");
                 head.MergeCells = true;
-                head.Value2 = "DANH SÁCH KHÁCH HÀNG";
+                head.Value2 = "DANH SÁCH HOÁ ĐƠN KHÁCH HÀNG";
                 head.Font.Bold = true;
                 head.Font.Name = "Times New Roman";
                 head.Font.Size = 20;
